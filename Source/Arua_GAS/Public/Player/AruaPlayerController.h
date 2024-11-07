@@ -3,11 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../../../../../../../software_all/unrealEnginAll/UE_5.3/Engine/Plugins/EnhancedInput/Source/EnhancedInput/Public/InputMappingContext.h"
+#include "EnhancedInputComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "AruaPlayerController.generated.h"
 
+//class UEnhancedInputLocalPlayerSubsystem;
 class UInputMappingContext;
+class UInputAction;
+struct FInputActionValue;
 
 /**
  * 
@@ -20,8 +23,13 @@ public:
 	AAruaPlayerController();
 protected:
 	virtual void BeginPlay() override;
-	virtual  void SetupInputComponent() override;
+	virtual void SetupInputComponent() override;
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> AruaContext;
+	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> MoveAction;
+
+	void Move(const FInputActionValue& InputActionValue);//FInoutActionValue是用于处理输入数据的
 };

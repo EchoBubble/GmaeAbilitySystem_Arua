@@ -13,5 +13,7 @@ UCLASS()
 class ARUA_GAS_API AAruaCharacter : public AAruaCharacterBase
 {
 	GENERATED_BODY()
+public:
+	AAruaCharacter();
 	
 };
