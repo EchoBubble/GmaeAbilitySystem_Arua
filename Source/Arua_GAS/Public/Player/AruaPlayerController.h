@@ -11,6 +11,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IEnemyInterface;
 
 /**
  * 
@@ -21,6 +22,7 @@ class ARUA_GAS_API AAruaPlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	AAruaPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -32,4 +34,11 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& InputActionValue);//FInoutActionValue是用于处理输入数据的
+
+	void CursorTrace();
+
+	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<IEnemyInterface> ThisActor;
+	/*IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;*/
 };
