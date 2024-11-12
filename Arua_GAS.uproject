@@ -25,6 +25,11 @@
 		{
 			"Name": "GameplayAbilities",
 			"Enabled": true
+		},
+		{
+			"Name": "Animcraft_Export",
+			"Enabled": true,
+			"MarketplaceURL": "https://animcraft.com/#/index"
 		}
 	]
 }

@@ -15,6 +15,11 @@ AAruaCharacterBase::AAruaCharacterBase()
 	//Weapon->SetRelativeScale3D(FVector(1,1,1));
 }
 
+UAbilitySystemComponent* AAruaCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 // Called when the game starts or when spawned
 void AAruaCharacterBase::BeginPlay()
 {

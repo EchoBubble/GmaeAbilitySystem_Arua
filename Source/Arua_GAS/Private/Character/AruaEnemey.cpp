@@ -3,11 +3,18 @@
 
 #include "Character/AruaEnemey.h"
 
+#include "AbilitySystem/AruaAbilitySystemComponent.h"
 #include "Arua_GAS/Arua_GAS.h"
 
 AAruaEnemey::AAruaEnemey()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
+	
+	AbilitySystemComponent = CreateDefaultSubobject<UAruaAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	
+	Attributes = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
 }
 
 void AAruaEnemey::HighlightActor()

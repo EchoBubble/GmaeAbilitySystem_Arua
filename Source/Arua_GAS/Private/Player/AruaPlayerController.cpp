@@ -9,7 +9,7 @@
 
 AAruaPlayerController::AAruaPlayerController()
 {
-	bReplicates = true;
+	bReplicates = true;//启用对象的网络同步
 	
 }
 
