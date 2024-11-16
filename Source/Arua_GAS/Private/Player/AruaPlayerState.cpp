@@ -13,7 +13,7 @@ AAruaPlayerState::AAruaPlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	Attributes = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
-	NetUpdateFrequency = 100.f;
+	NetUpdateFrequency = 100.f;//服务器向客户端发送对象更新频率
 }
 
 UAbilitySystemComponent* AAruaPlayerState::GetAbilitySystemComponent() const

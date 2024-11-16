@@ -28,7 +28,7 @@
 		},
 		{
 			"Name": "Animcraft_Export",
-			"Enabled": true,
+			"Enabled": false,
 			"MarketplaceURL": "https://animcraft.com/#/index"
 		}
 	]

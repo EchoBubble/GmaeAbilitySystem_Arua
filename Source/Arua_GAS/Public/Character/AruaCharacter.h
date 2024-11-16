@@ -15,5 +15,10 @@ class ARUA_GAS_API AAruaCharacter : public AAruaCharacterBase
 	GENERATED_BODY()
 public:
 	AAruaCharacter();
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+	void InitAbilityActorInfo();
 	
 };

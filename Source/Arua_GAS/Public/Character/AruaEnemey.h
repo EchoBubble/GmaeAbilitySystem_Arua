@@ -17,10 +17,14 @@ class ARUA_GAS_API AAruaEnemey : public AAruaCharacterBase, public  IEnemyInterf
 
 public:
 	AAruaEnemey();
+
+	//** Enemy Interface **
 	virtual void HighlightActor()override;
 	virtual void UnHighlightActor()override;
-
 	/*UPROPERTY(BlueprintReadOnly)
 	bool bHightlighted = false;*/
 	
+	//** End Enemy Interface **
+protected:
+	virtual void BeginPlay() override;
 };
