@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "UI/Widget/AuraUserWiget.h"
+#include "UI/Widget/AuraUserWidget.h"
 
-void UAuraUserWiget::SetWidgetController(UObject* InWidgetController)
+void UAuraUserWidget::SetWidgetController(UObject* InWidgetController)
 {
 	WidgetController = InWidgetController;
 	WidgetControllerSet();
