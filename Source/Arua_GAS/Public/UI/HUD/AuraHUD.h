@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../../../../../../../../../software_all/unrealEnginAll/UE_5.3/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectPtr.h"
+#include "/unrealEngine/UE_5.3/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectPtr.h"
 #include "GameFramework/HUD.h"
-#include "GameFramework/PlayerState.h"
+//#include "GameFramework/PlayerState.h"
 #include "AuraHUD.generated.h"
 
 class UAttributeSet;

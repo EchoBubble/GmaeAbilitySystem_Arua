@@ -9,9 +9,19 @@
 /**
  * 
  */
-UCLASS()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeSignature,float,NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangeSignature,float,NewMaxHealth);
+UCLASS(BlueprintType, Blueprintable)
 class ARUA_GAS_API UOverlayWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
+public:
+	virtual void BroadcastInitialValues() override;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	FOnHealthChangeSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	FOnMaxHealthChangeSignature OnMaxHealthChanged;
 	
 };
