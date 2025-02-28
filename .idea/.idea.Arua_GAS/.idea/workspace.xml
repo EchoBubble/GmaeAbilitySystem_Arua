@@ -13,8 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Maps/Advanced_Lighting_BuiltData.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Maps/Advanced_Lighting_BuiltData.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actor/Crystal/GE_CrystalHeal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actor/Crystal/GE_CrystalHeal.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actor/Potion/GE_PotionMana.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actor/Potion/GE_PotionMana.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +29,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://1" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://2" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/Core/Public/Containers/SparseArray.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/Core/Public/Templates/SharedPointerInternals.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="Toolset" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -44,21 +45,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C/C++ 项目.Arua_GAS.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C/C++ 项目.Arua_GAS.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CppUnrealEngineOptionsId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C/C++ 项目.Arua_GAS">
     <configuration name="Arua_GAS" type="CppProject" factoryName="C++ Project">
       <configuration_1 setup="1">
@@ -160,7 +162,10 @@
       <updated>1737612463782</updated>
       <workItem from="1737612465333" duration="21244000" />
       <workItem from="1738717688512" duration="74862000" />
-      <workItem from="1740643004144" duration="3419000" />
+      <workItem from="1740643004144" duration="8309000" />
+      <workItem from="1740729159267" duration="620000" />
+      <workItem from="1740729801373" duration="531000" />
+      <workItem from="1740730348308" duration="5019000" />
     </task>
     <servers />
   </component>
