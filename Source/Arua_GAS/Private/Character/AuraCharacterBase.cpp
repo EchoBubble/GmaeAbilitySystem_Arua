@@ -27,6 +27,11 @@ void AAuraCharacterBase::BeginPlay()
 	
 }
 
+void AAuraCharacterBase::InitAbilityActorInfo()
+{
+	
+}
+
 // Called every frame
 /*void AAruaCharacterBase::Tick(float DeltaTime)
 {

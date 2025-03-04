@@ -34,6 +34,8 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> Attributes;
 
+	virtual void InitAbilityActorInfo();
+
 /*public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
