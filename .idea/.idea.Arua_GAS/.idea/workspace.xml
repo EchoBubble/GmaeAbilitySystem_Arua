@@ -13,10 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Effects/Fire/NS_Fire.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Effects/Fire/NS_Fire.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/UI/Globes/MI_HealthGlobe.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/UI/Globes/MI_HealthGlobe.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actor/Area/GE_FireArea.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actor/Area/GE_FireArea.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_GlobalProgressBar.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_GlobalProgressBar.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_HealthGlobe.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_HealthGlobe.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_ManaGlobe.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/ProgressBar/WBP_ManaGlobe.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/UI/WidgetController/OverlayWidgetController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/UI/WidgetController/OverlayWidgetController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/UI/WidgetController/OverlayWidgetController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/UI/WidgetController/OverlayWidgetController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +40,13 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://56" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://57" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/Core/Public/Containers/SparseArray.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/Core/Public/Internationalization/Text.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/Core/Public/Templates/SharedPointerInternals.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/GameplayTags/Private/GameplayTagContainer.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://D:/unrealEngine/UE_5.3/Engine/Source/Runtime/UMG/Private/Components/ProgressBar.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="Toolset" />
@@ -176,7 +181,7 @@
       <workItem from="1740729159267" duration="620000" />
       <workItem from="1740729801373" duration="531000" />
       <workItem from="1740730348308" duration="7460000" />
-      <workItem from="1741074546200" duration="90324000" />
+      <workItem from="1741074546200" duration="98708000" />
     </task>
     <servers />
   </component>
