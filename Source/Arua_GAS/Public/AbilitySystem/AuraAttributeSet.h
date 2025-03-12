@@ -62,19 +62,40 @@ public:
 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Health,Category = "Vital Attribute")//此属性在网络同步被改变时自动调用此函数，和 Replicated 相比就是多了额外的处理
+	/*
+	 * Primary Attributes
+	 */
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Strength,Category = "Primary Attributes")
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Strength);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Intelligence,Category = "Primary Attributes")
+	FGameplayAttributeData Intelligence;//智力
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Intelligence);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Resilience,Category = "Primary Attributes")
+	FGameplayAttributeData Resilience;//韧性
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Resilience);
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Vigor,Category = "Primary Attributes")
+	FGameplayAttributeData Vigor;//活力
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Vigor);
+	/*
+	 * Vital Attributes
+	 */
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Health,Category = "Vital Attributes")//此属性在网络同步被改变时自动调用此函数，和 Replicated 相比就是多了额外的处理
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Health);
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth,Category = "Vital Attribute")
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth,Category = "Vital Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxHealth);
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Mana,Category = "Vital Attribute")
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Mana,Category = "Vital Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Mana);
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxMana,Category = "Vital Attribute")
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxMana,Category = "Vital Attributes")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxMana);
 
@@ -86,10 +107,27 @@ public:
 	void OnRep_Mana(const FGameplayAttributeData& OldMana)const;
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana)const;
-
+	UFUNCTION()
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength)const;
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence)const;
+	UFUNCTION()
+	void OnRep_Resilience(const FGameplayAttributeData& OldResilience)const;
+	UFUNCTION()
+	void OnRep_Vigor(const FGameplayAttributeData& OldVigor)const;
 private:
 	
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data,FEffectProperties& Props)const;
 };
+
+
+
+
+
+
+
+
+
+
 
 

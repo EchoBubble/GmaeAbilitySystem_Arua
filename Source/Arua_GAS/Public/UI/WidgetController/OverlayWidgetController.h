@@ -50,16 +50,16 @@ public:
 
 	virtual void BindCallbacksToDependencies() override;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnAttrhibuteChangeSignature OnHealthChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnAttrhibuteChangeSignature OnMaxHealthChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnAttrhibuteChangeSignature OnManaChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Attribute")
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnAttrhibuteChangeSignature OnMaxManaChanged;
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
