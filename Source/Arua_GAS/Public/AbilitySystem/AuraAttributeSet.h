@@ -80,24 +80,61 @@ public:
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Vigor,Category = "Primary Attributes")
 	FGameplayAttributeData Vigor;//活力
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Vigor);
+
+	/*
+	 * Secondary Attributes
+	 */
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Armor,Category = "Secondary Attributes")
+	FGameplayAttributeData Armor;//护甲
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Armor);
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_ArmorPenetration,Category = "Secondary Attributes")
+	FGameplayAttributeData ArmorPenetration;//护甲穿透
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,ArmorPenetration);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_BlockChance,Category = "Secondary Attributes")
+	FGameplayAttributeData BlockChance;//格挡几率
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,BlockChance);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_CriticalHitChance,Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitChance;//暴击几率
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitChance);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_CriticalHitDamage,Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitDamage;//暴击伤害
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitDamage);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_CriticalHitResistance,Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitResistance;//暴击抗性
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitResistance);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_HealthRegeneration,Category = "Secondary Attributes")
+	FGameplayAttributeData HealthRegeneration;//生命恢复
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,HealthRegeneration);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_ManaRegeneration,Category = "Secondary Attributes")
+	FGameplayAttributeData ManaRegeneration;//法力恢复
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,ManaRegeneration);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth,Category = "Vital Attributes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxHealth);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxMana,Category = "Vital Attributes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxMana);
 	/*
 	 * Vital Attributes
 	 */
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Health,Category = "Vital Attributes")//此属性在网络同步被改变时自动调用此函数，和 Replicated 相比就是多了额外的处理
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Health);
-
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth,Category = "Vital Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxHealth);
-
+	
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Mana,Category = "Vital Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Mana);
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxMana,Category = "Vital Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxMana);
+	
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth)const;
@@ -115,6 +152,22 @@ public:
 	void OnRep_Resilience(const FGameplayAttributeData& OldResilience)const;
 	UFUNCTION()
 	void OnRep_Vigor(const FGameplayAttributeData& OldVigor)const;
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor)const;
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration)const;
+	UFUNCTION()
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance)const;
+	UFUNCTION()
+	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance)const;
+	UFUNCTION()
+	void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage)const;
+	UFUNCTION()
+	void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance)const;
+	UFUNCTION()
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration)const;
+	UFUNCTION()
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration)const;
 private:
 	
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data,FEffectProperties& Props)const;
