@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
-#include "AuraEnemey.generated.h"
+#include "AuraEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ARUA_GAS_API AAuraEnemey : public AAuraCharacterBase, public  IEnemyInterface
+class ARUA_GAS_API AAuraEnemy : public AAuraCharacterBase, public  IEnemyInterface
 {
 	GENERATED_BODY()
 
 public:
-	AAuraEnemey();
+	AAuraEnemy();
 
 	//** Enemy Interface **
 	virtual void HighlightActor()override;
@@ -25,8 +25,20 @@ public:
 	bool bHightlighted = false;*/
 	
 	//** End Enemy Interface **
+
+	/** Combat Interface*/
+	virtual int32 GetPlayerLevel()override;
+	/** end Combat Interface*/
+	 
 protected:
 	virtual void BeginPlay() override;
 
 	virtual void InitAbilityActorInfo() override;
+
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Character Class Defaults")
+	int32 Level = 1;
+
+	
+	
 };
