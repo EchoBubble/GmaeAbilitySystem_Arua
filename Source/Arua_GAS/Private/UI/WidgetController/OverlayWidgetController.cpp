@@ -56,13 +56,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			{
 				//For example, say that tag = Message.HealthPotion
 				//"Message.HealthPotion".MatchesTag("Message") will return True, "Message".MatchesTag("Message.HealthPotion") will return False
-				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-				if (Tag.MatchesTag(MessageTag))
+				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));//得到父类名字
+				if (Tag.MatchesTag(MessageTag))//查看是否是Message的子类标签
 				{
 					/*const FString Msg = FString::Printf(TEXT("GE Tag: %s"),*Tag.ToString());
 					GEngine->AddOnScreenDebugMessage(-1, 5.0,FColor::Blue,Msg);*/
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable,Tag);
-					MessageWidgetRowDelegate.Broadcast(*Row);
+					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable,Tag);//得到和遍历tag名称一样的表格行名字
+					MessageWidgetRowDelegate.Broadcast(*Row);//广播通知tag
 				}
 			}
 		}
