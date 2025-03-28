@@ -16,8 +16,10 @@ struct FAuraGameplayTags
 public:
 	static FAuraGameplayTags& Get(){return GameplayTags;}
 	static void InitializeNativeGameplayTags();
-protected:
 
+	FGameplayTag Attributes_Secondary_Armor;
+protected:
+	
 private:
-	static FAuraGameplayTags GameplayTags;	
+	static FAuraGameplayTags GameplayTags;	//开辟新的变量，创建全局唯一的实例
 };
