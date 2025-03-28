@@ -8,11 +8,11 @@
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this,&UAuraAbilitySystemComponent::EffectApplied);
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
-
+	
+	/*const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	GEngine->AddOnScreenDebugMessage(-1,
 		10.f,FColor::Orange,
-		FString::Printf(TEXT("Tags: %s"),*GameplayTags.Attributes_Secondary_Armor.ToString()));
+		FString::Printf(TEXT("Tags: %s"),*GameplayTags.Attributes_Secondary_Armor.ToString()));*/
 	
 }
 
