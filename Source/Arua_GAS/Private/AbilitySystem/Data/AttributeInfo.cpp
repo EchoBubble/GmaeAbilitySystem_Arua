@@ -18,5 +18,5 @@ FAuraAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& A
 		UE_LOG(LogTemp, Error, TEXT("Can't find Info for AttributeTag [%s] on AttributeInfo [%s]."),*AttributeTag.ToString(),*GetNameSafe(this));
 	}
 
-	return FAuraAttributeInfo();
+	return FAuraAttributeInfo();//结构体没有null，所以这里返回空的结构体
 }

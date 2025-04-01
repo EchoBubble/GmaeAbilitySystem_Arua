@@ -11,6 +11,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	/*
 	 * Primary Attributes
 	 */
+	//注册新的标签，通过资产直接注册，可在UE编辑器中看到
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Strength"),
 		FString("Increases physical damage")
