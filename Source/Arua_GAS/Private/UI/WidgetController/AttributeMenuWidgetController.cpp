@@ -22,6 +22,6 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	FAuraAttributeInfo Info =  AttributeInfo->FindAttributeInfoForTag(FAuraGameplayTags::Get().Attributes_Primary_Strength);//找到对应的结构体
 	Info.AttributeValue = AS->GetStrength();//设置当前结构体的变量为对应的变量
 
-
+	AttributeInfoDelegate.Broadcast(Info);
 	
 }
