@@ -13,6 +13,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+//DECLARE_DELEGATE_RetVal(FGameplayAttribute,FAttributeSignature);
+
+
 USTRUCT()
 struct FEffectProperties
 {
@@ -47,6 +50,11 @@ struct FEffectProperties
 	ACharacter* TargetCharacter = nullptr;
 
 };
+
+//typedef is specific to the FGameplayAttribute() signature, but TStaticFunptr is generic to any signature chosen
+//typedef TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPtr;
+template<class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
 /**
  * 
  */
@@ -62,6 +70,14 @@ public:
 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
+	//TMap<FGameplayTag,FAttributeSignature>TagsToAttributes;//旧版，签名
+	TMap<FGameplayTag,TStaticFuncPtr<FGameplayAttribute()>>TagsToAttributes;
+
+	/*TStaticFuncPtr<float(int32, float, int32)> RandomFunctionPointer;
+	static float RandomFunction(int32 I,float F,int32 I2){return 0.0f;};*/
+
+	//TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr FunctionPointer;
+	
 	/*
 	 * Primary Attributes
 	 */

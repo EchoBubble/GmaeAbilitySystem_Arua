@@ -8,9 +8,20 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
+#include "AuraGameplayTags.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+
+	//FAttributeSignature StrengthSignature;
+	//StrengthSignature.BindStatic(UAuraAttributeSet::GetStrengthAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Vigor, GetVigorAttribute);
+	/*RandomFunctionPointer = RandomFunction;
+	float F = RandomFunctionPointer(0,0.f,0);*/
 	
 }
 
