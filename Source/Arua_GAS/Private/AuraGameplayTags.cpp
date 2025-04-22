@@ -45,8 +45,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Ignores Percentage of enemy Armor,increases Crit Hit Chance")
 		);
 
-	GameplayTags.Attributes_Secondary_BlocChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.BlocChance"),
+	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.BlockChance"),
 		FString("Chance to cut incoming damage in half 伤害减半")
 		);
 
