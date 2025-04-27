@@ -15,11 +15,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/InputActions/IA_Move.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Player/BP_AuraPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Player/BP_AuraPlayerController.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Player/IMC_AruaContex.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Player/IMC_AruaContex.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arua_GAS.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/Arua_GAS.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,18 +31,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraGameplayAbility.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/ModMagCalc/MMC_MaxHealth.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/ModMagCalc/MMC_MaxMana.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Input/AuraInputComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Input/AuraInputConfig.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Interaction/CombatInterface.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraGameplayAbility.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/ModMagCalc/MMC_MaxHealth.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/ModMagCalc/MMC_MaxMana.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputConfig.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Interaction/CombatInterface.h" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -221,7 +219,9 @@
       <workItem from="1742952671671" duration="2840000" />
       <workItem from="1744707418322" duration="1270000" />
       <workItem from="1744712269923" duration="2255000" />
-      <workItem from="1745218556877" duration="50634000" />
+      <workItem from="1745218556877" duration="52133000" />
+      <workItem from="1745560685944" duration="226000" />
+      <workItem from="1745561449847" duration="23489000" />
     </task>
     <servers />
   </component>
@@ -229,6 +229,17 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
