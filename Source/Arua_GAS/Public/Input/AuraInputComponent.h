@@ -21,7 +21,7 @@ public:
 };
 
 template <class UserClass, typename PressedFuncType, typename ReleaseFuncType, typename HeldFuncType>
-void UAuraInputComponent::BindAbilityActions(UAuraInputConfig* InputConfig, UserClass* Object,PressedFuncType PressedFunc, ReleaseFuncType ReleaseFunc, HeldFuncType HeldFunc)
+void UAuraInputComponent::BindAbilityActions(UAuraInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleaseFuncType ReleaseFunc, HeldFuncType HeldFunc)
 {
 	check(InputConfig);
 
@@ -35,7 +35,7 @@ void UAuraInputComponent::BindAbilityActions(UAuraInputConfig* InputConfig, User
 			}
 			if (ReleaseFunc)
 			{
-				BindAction(Action.InputAction, ETriggerEvent::Canceled, Object, ReleaseFunc, Action.InputTag);
+				BindAction(Action.InputAction, ETriggerEvent::Completed, Object, ReleaseFunc, Action.InputTag);
 			}
 			if (HeldFunc)
 			{
