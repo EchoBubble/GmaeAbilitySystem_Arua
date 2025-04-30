@@ -54,7 +54,7 @@ void AAuraCharacterBase::InitializeDefaultAttributes()const
 
 void AAuraCharacterBase::AddCharacterAbilities()
 {
-	if (!HasAuthority()) return;
+	if (!HasAuthority()) return;//Authority是判断是否在服务器（Server）上执行，GAS只能由服务器赋予，否则客户端就能随便开挂了
 
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 
