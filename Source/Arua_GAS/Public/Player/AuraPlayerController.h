@@ -43,6 +43,7 @@ private:
 	void Move(const FInputActionValue& InputActionValue);//FInoutActionValue是用于处理输入数据的
 
 	void CursorTrace();
+	FHitResult CursorHit;
 
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;

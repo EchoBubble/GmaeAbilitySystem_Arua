@@ -47,7 +47,6 @@ void AAuraPlayerController::AutoRun()
 
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);
 	if(!CursorHit.bBlockingHit) return;
 
@@ -55,53 +54,10 @@ void AAuraPlayerController::CursorTrace()
 	//ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());//脚本接口，转换没有必要
 	ThisActor = CursorHit.GetActor();
 
-
-	/*
-		LineTrace from cursor .  there are several scenario
-		A. LastActor is null && ThisActor is null
-			--Do Nothing
-		B. LastActor is null && ThisActor is valid
-		    --Highlight ThisActor
-		C. LastActor is valid && ThisActor is null
-		    --UnHighlight LastActor
-		D. Both actor is valid && LastActor != ThisActor
-			--UnHighlight LastActor && Highlight ThisActor
-		E. Both Actor is valid && they are same actor
-		    --Do Nothing
-	*/
-
-	if(LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if(ThisActor != nullptr)
-		{
-			//case B
-			ThisActor->HighlightActor();
-		}
-		else
-		{
-			//case A     Both are null do nothing
-		}
-	}
-	else  //LastActor is valid
-	{
-		if(ThisActor == nullptr)
-		{
-			//case C    
-			LastActor->UnHighlightActor();
-		}
-		else // Both Actor is valid
-		{
-			if (LastActor != ThisActor)
-			{
-				//case D
-				LastActor->UnHighlightActor();
-				ThisActor->HighlightActor();
-			}
-			else
-			{
-				//case D
-			}
-		}
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->HighlightActor();
 	}
 }
 
@@ -113,7 +69,6 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
 	}
-	
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -144,7 +99,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(),PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+					//DrawDebugSphere(GetWorld(),PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 				}
 				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];//将点击位置设置为导航点最后一个点的位置，否则可能会出现永久跑，具体看文档
 				bAutoRunning = true;
@@ -152,7 +107,6 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		FollowTime = 0.f;//保证每次运行都是新的
 		bTargeting = false;
-		
 	}
 }
 
@@ -177,10 +131,10 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	else
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();//得到前后帧时间差，得到具体跟随时间
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility,false,Hit))
+		
+		if (CursorHit.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = CursorHit.ImpactPoint;
 		}
 		if (APawn* ControllerPawn = GetPawn())
 		{
@@ -202,7 +156,6 @@ void AAuraPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(AruaContext,0);
 	}
 	
-
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
