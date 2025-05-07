@@ -5,9 +5,12 @@
 
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Runtime/AIModule/Classes/AIController.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
@@ -97,30 +100,64 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (GetASC() == nullptr)return;
-	GetASC()->AbilityInputTagReleased(InputTag);
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputTagReleased(InputTag);
+		}
+		return;
+	}
+	if (bTargeting)
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputTagReleased(InputTag);
+		}
+	}
+	else
+	{
+		APawn* ControllerPawn = GetPawn();
+		if (FollowTime <= ShortPressThreshold && ControllerPawn)
+		{
+			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this,ControllerPawn->GetActorLocation(), CachedDestination))
+			{
+				Spline->ClearSplinePoints();
+				for (const FVector& PointLoc : NavPath->PathPoints)
+				{
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					DrawDebugSphere(GetWorld(),PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+				}
+				bAutoRunning = true;
+			}
+		}
+		FollowTime = 0.f;//保证每次运行都是新的
+		bTargeting = false;
+		
+	}
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))//不是左键就就运行其他键位的技能
 	{
 		if (GetASC())
 		{
 			GetASC()->AbilityInputTagHeld(InputTag);
 		}
+		return;
 	}
 
 	if (bTargeting)
 	{
 		if (GetASC())
 		{
-			GetASC()->AbilityInputTagHeld(InputTag);
+			GetASC()->AbilityInputTagHeld(InputTag);//是敌人角色直接启动技能
 		}
 	}
 	else
 	{
-		FollowTime += GetWorld()->GetTimeSeconds();
+		FollowTime += GetWorld()->GetDeltaSeconds();//得到前后帧时间差，得到具体跟随时间
 		FHitResult Hit;
 		if (GetHitResultUnderCursor(ECC_Visibility,false,Hit))
 		{
@@ -128,7 +165,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 		if (APawn* ControllerPawn = GetPawn())
 		{
-			const FVector WorldDirection = (CachedDestination - ControllerPawn->GetActorLocation()).GetSafeNormal();
+			const FVector WorldDirection = (CachedDestination - ControllerPawn->GetActorLocation()).GetSafeNormal();//得到安全类型的玩家到目标点的距离向量
 			ControllerPawn->AddMovementInput(WorldDirection);
 		}
 	}
