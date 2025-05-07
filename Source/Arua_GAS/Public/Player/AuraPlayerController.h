@@ -72,7 +72,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
-	
+
+	void AutoRun();
 };
 
 inline UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
