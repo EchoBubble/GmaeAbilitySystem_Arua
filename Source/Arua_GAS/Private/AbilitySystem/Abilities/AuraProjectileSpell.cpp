@@ -24,7 +24,7 @@ void UAuraProjectileSpell::SpawnProjectile()
 	//const bool bIsServer = HasAuthority(&ActivationInfo);
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
-
+	
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());//通过转换得到控制的玩家
 	if (CombatInterface)
 	{
