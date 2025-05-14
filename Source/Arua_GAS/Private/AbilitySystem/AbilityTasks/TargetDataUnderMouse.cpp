@@ -14,16 +14,24 @@ UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGamepl
 void UTargetDataUnderMouse::Activate()
 {
 	const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled();
-	if (bIsLocallyControlled)//判断当前机器是否控制着这个角色，只有客户端 + listen server才会为true
+	if (bIsLocallyControlled)//判断当前机器是否控制着这个角色
 	{
 		SendMouseCursorData();
 	}
 	else
 	{
-		//TODO: We are on the server,so listen for target data.
+		/*只有服务器副本会跑这里，这里主要目的也是让服务器去绑定委托
+		其它客户端模拟体也不会绑定，省一点性能,游戏开启的每一个窗口，都会有个当前角色的复制，那个复制也会释放技能走Activate*/
+		const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
+		const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
+		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(GetAbilitySpecHandle(),GetActivationPredictionKey()).AddUObject(
+			this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
+		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle,ActivationPredictionKey);
+		if (!bCalledDelegate)
+		{
+			SetWaitingOnRemotePlayerData();
+		}
 	}
-	
-	
 }
 
 void UTargetDataUnderMouse::SendMouseCursorData()
@@ -50,7 +58,14 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 	{
 		ValidData.Broadcast(DataHandle);
 	}
+}
 
-
-
+void UTargetDataUnderMouse::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle,FGameplayTag ActivationTag)
+{
+	//清除缓存，此时目的已达到，调用这个回调函数广播数据包
+	AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey());
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		ValidData.Broadcast(DataHandle);
+	}
 }

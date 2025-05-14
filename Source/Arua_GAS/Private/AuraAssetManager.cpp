@@ -2,7 +2,10 @@
 
 
 #include "AuraAssetManager.h"
+
+#include "AbilitySystemGlobals.h"
 #include "AuraGameplayTags.h"
+
 
 
 UAuraAssetManager& UAuraAssetManager::Get()
@@ -18,7 +21,8 @@ void UAuraAssetManager::StartInitialLoading()
 	Super::StartInitialLoading();
 
 	FAuraGameplayTags::InitializeNativeGameplayTags();//这就是静态函数，不用实例化直接就能调取函数了
-	
+	//5.3版本以后不用加，但是5.2需要，这个是初始化数据资产表格，类似字典，这样服务器就根据客户端上传的数据去查找数据编号并储存了，否则直接断联
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }
 
 
