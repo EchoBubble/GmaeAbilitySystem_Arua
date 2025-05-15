@@ -81,14 +81,8 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		return;
 	}
-	if (bTargeting)
-	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
-	}
-	else
+	GetASC()->AbilityInputTagReleased(InputTag);
+	if (!bTargeting && !bAutoRunning)
 	{
 		APawn* ControllerPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControllerPawn)
@@ -121,7 +115,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		if (GetASC())
 		{
@@ -147,13 +141,13 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	check(AruaContext);
+	check(AuraContext);
 
 	UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	//check(Subsystem);
 	if (Subsystem)
 	{
-		Subsystem->AddMappingContext(AruaContext,0);
+		Subsystem->AddMappingContext(AuraContext,0);
 	}
 	
 	bShowMouseCursor = true;
@@ -173,7 +167,8 @@ void AAuraPlayerController::SetupInputComponent()
 	UAuraInputComponent* AuraInputComponent = Cast<UAuraInputComponent>(InputComponent);
 	//绑定组件
 	AuraInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AAuraPlayerController::Move);
-
+	AuraInputComponent->BindAction(ShiftAction,ETriggerEvent::Started,this,&AAuraPlayerController::ShiftPressed);
+	AuraInputComponent->BindAction(ShiftAction,ETriggerEvent::Completed,this,&AAuraPlayerController::ShiftReleased);
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
