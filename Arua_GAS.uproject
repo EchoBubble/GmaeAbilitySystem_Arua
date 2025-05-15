@@ -33,6 +33,10 @@
 			"Name": "Animcraft_Export",
 			"Enabled": false,
 			"MarketplaceURL": "https://animcraft.com/#/index"
+		},
+		{
+			"Name": "MotionWarping",
+			"Enabled": true
 		}
 	]
 }
