@@ -5,6 +5,8 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Arua_GAS/Arua_GAS.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/AuraUserWidget.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -15,6 +17,9 @@ AAuraEnemy::AAuraEnemy()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 	Attributes = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void AAuraEnemy::HighlightActor()
@@ -42,6 +47,29 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+
+	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		//设置控制器为自身，这样UI中就能直接绑定这些委托了
+		AuraUserWidget->SetWidgetController(this);
+	}
+	
+	if (const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(Attributes))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnHealthChanged.Broadcast(Data.NewValue);
+		});
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetMaxHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnMaxHealthChanged.Broadcast(Data.NewValue);
+		});
+		//初始化广播数据
+		OnHealthChanged.Broadcast(AuraAS->GetHealth());
+		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
+	}
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
