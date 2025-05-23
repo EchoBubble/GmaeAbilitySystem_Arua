@@ -2,6 +2,8 @@
 
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+
+#include "Game/AuraGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
@@ -39,4 +41,34 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 		}
 	}
 	return nullptr;
+}
+
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	//通过世界上下文得到GameMode
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr)return;
+
+	//得到游戏运行实例
+	AActor* AvatarActor = ASC->GetAvatarActor();
+
+	//从GameMode中得到储存的玩家类型实例
+	UCharacterClassInfo* CharacterClassInfo = AuraGameMode->CharacterClassInfo;
+	FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);//调用玩家类型里的函数得到具体的主要GE
+
+	//创建上下文句柄
+	FGameplayEffectContextHandle PrimaryAttributesContextHandle = ASC->MakeEffectContext();
+	PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);//添加源物体，因为敌人用的属性GE是复制的Aura玩家，用到了自定义计算
+	const FGameplayEffectSpecHandle PrimaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level, PrimaryAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*PrimaryAttributesSpecHandle.Data.Get());
+
+	FGameplayEffectContextHandle SecondaryAttributesContextHandle = ASC->MakeEffectContext();
+	SecondaryAttributesContextHandle.AddSourceObject(AvatarActor);
+	const FGameplayEffectSpecHandle SecondaryAttributesSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->SecondaryAttributes, Level, SecondaryAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*SecondaryAttributesSpecHandle.Data.Get());
+
+	FGameplayEffectContextHandle VitalAttributesContextHandle = ASC->MakeEffectContext();
+	VitalAttributesContextHandle.AddSourceObject(AvatarActor);
+	const FGameplayEffectSpecHandle VitalAttributesSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->VitalAttributes, Level, VitalAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
 }
