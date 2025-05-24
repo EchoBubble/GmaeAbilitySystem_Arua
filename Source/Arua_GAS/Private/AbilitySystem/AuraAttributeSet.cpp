@@ -143,7 +143,18 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
 	}
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();// ① 把仓库里的货取出来
+		SetIncomingDamage(0.f);						// ② 立刻把仓库清空，避免下次叠账
+		if (LocalIncomingDamage > 0.f)						// ③ 只有真有伤害才继续
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;// ④ 计算新血量
+			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));// ⑤ 扣血并夹在 0~Max 之间
 
+			const bool bFatal = NewHealth <= 0.f;
+		}
+	}
 	
 }
 
