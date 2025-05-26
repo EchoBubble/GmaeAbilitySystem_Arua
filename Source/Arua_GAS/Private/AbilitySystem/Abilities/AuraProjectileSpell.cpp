@@ -8,6 +8,7 @@
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "AuraGameplayTags.h"
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -49,8 +50,11 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		
 		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());//获取当前技能释放者的ASC组件
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());//创建句柄
-		Projectile->DamageEffectSpecHandle = SpecHandle;//传递给Projectile这个actor
 
+		FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();//调用自定义Get函数得到标签实例
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,GameplayTags.Damage, 50.f);//此函数需要在应用效果前调用，传入对应的键值对来设置具体数值
+		Projectile->DamageEffectSpecHandle = SpecHandle;//传递给Projectile这个actor
+		
 		Projectile->FinishSpawning(SpawnTransform);
 	}
 }

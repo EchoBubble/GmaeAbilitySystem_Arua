@@ -39,7 +39,8 @@ public:
 	FGameplayTag InputTag_2;
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
-	
+
+	FGameplayTag Damage;
 private:
 	static FAuraGameplayTags GameplayTags;	//开辟新的变量，创建全局唯一的实例
 };
