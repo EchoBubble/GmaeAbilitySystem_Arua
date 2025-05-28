@@ -41,6 +41,8 @@ public:
 	FGameplayTag InputTag_4;
 
 	FGameplayTag Damage;
+
+	FGameplayTag Effects_HitReact;
 private:
 	static FAuraGameplayTags GameplayTags;	//开辟新的变量，创建全局唯一的实例
 };

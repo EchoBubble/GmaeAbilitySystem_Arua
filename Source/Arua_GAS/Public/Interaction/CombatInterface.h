@@ -13,6 +13,7 @@ class UCombatInterface : public UInterface
 	GENERATED_BODY()
 };
 
+class UAnimMontage;
 /**
  * 
  */
@@ -27,4 +28,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void UpdateFacingTarget(const FVector& Target);
+
+	//函数声明为BlueprintNativeEvent，这样不仅可以蓝图覆写，也可以C++默认实现
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
 };
