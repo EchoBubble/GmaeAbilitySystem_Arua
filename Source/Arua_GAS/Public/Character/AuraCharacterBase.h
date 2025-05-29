@@ -26,6 +26,10 @@ public:
 	UAttributeSet* GetAttributeSet()const {return Attributes;};
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
+
+	UFUNCTION(NetMulticast, reliable)
+	virtual void MulticastHandleDeath();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -32,4 +32,6 @@ public:
 	//函数声明为BlueprintNativeEvent，这样不仅可以蓝图覆写，也可以C++默认实现
 	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
+
+	virtual void Die() = 0;
 };
