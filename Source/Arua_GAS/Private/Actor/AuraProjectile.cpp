@@ -46,7 +46,7 @@ void AAuraProjectile::BeginPlay()
 
 void AAuraProjectile::Destroyed()
 {
-	if (!bHit && !HasAuthority())//特殊情况，客户端未来得及生成就被销毁了就会走这里补救
+	if (!bHit && !HasAuthority())//特殊情况，客户端未来得及生成就被销毁时走这里补救分支
 	{
 		UGameplayStatics::PlaySoundAtLocation(this,ImpactSound,GetActorLocation(),FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
