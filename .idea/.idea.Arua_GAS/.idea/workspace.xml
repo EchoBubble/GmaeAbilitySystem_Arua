@@ -15,12 +15,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Enemies/Goblin/Materials/MI_GoblinDissolve.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Enemies/Goblin/Materials/MI_GoblinDissolve.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/character/BP_EnemyBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/character/BP_EnemyBase.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/character/Goblin_Slingshot/BP_Goblin_SlingShot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/character/Goblin_Slingshot/BP_Goblin_SlingShot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/character/Goblin_Spear/BP_Goblin_Spear.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/character/Goblin_Spear/BP_Goblin_Spear.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/Character/AuraCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/Character/AuraCharacterBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/Character/AuraCharacterBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/Character/AuraCharacterBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +62,7 @@
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Input/AuraInputComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Input/AuraInputConfig.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/Interaction/CombatInterface.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Private/UI/Widget/DamageTextComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraGameplayAbility.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraProjectileSpell.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/AbilityTasks/TargetDataUnderMouse.h" root0="FORCE_HIGHLIGHTING" />
@@ -78,6 +74,7 @@
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputConfig.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Interaction/CombatInterface.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/UI/Widget/DamageTextComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../ue_project_all/LyraStarterGame/Source/LyraGame/Character/LyraHeroComponent.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -429,7 +426,7 @@
       <workItem from="1746524378740" duration="80242000" />
       <workItem from="1746961224259" duration="944000" />
       <workItem from="1747013515886" duration="76624000" />
-      <workItem from="1747274206826" duration="287774000" />
+      <workItem from="1747274206826" duration="292404000" />
     </task>
     <servers />
   </component>
