@@ -5,12 +5,15 @@
 
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
+#include "MovieSceneTracksComponentTypes.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "Runtime/AIModule/Classes/AIController.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
@@ -26,6 +29,19 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 
 	CursorTrace();
 	AutoRun();
+}
+
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();//注册组件，否则没法做交互操作，NewObject只是存在于内存中，场景中不存在
+		//DamageText->SetIsReplicated(true);除非想要所有用户都看到彼此的飘字，否则不复制
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);//生成吸附后立刻分离，不用跟着角色走
+		DamageText->SetDamageText(DamageAmount);//调用组件中的蓝图实现函数，设置Widget的显示数值
+	}
 }
 
 void AAuraPlayerController::AutoRun()
