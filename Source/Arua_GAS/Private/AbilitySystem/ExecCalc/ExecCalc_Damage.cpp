@@ -56,7 +56,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float Armor = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef,EvaluateParameters, Armor);
 	Armor = FMath::Max<float>(0.f, Armor);
-
+	++Armor;//这里的相加只是局部变量，不会影响到真正的属性
+	
 	const FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().ArmorProperty,EGameplayModOp::Additive, Armor);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
