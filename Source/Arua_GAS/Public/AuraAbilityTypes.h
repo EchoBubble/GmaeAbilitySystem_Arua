@@ -13,8 +13,8 @@ public:
 	bool IsCriticalHit() const {return bIsCriticalHit;}
 	bool IsBlockedHit() const {return bIsBlockedHit;}
 
-	void SetCriticalHit(bool bInCriticalHit) {bIsCriticalHit = bInCriticalHit;}
-	void SetBlockedHit(bool bInBlockedHit) {bIsBlockedHit = bInBlockedHit;}
+	void SetIsCriticalHit(bool bInCriticalHit) {bIsCriticalHit = bInCriticalHit;}
+	void SetIsBlockedHit(bool bInBlockedHit) {bIsBlockedHit = bInBlockedHit;}
 	
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const 
