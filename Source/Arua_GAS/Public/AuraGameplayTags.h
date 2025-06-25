@@ -41,7 +41,10 @@ public:
 	FGameplayTag InputTag_4;
 
 	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
 
+	TArray<FGameplayTag> DamageTypes;
+	
 	FGameplayTag Effects_HitReact;
 private:
 	static FAuraGameplayTags GameplayTags;	//开辟新的变量，创建全局唯一的实例
