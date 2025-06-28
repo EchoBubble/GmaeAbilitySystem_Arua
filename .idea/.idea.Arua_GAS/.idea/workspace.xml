@@ -16,14 +16,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Data/DA_AttributeInfo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Data/DA_AttributeInfo.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/GameplayEffects/DefaultfAttributes/GE_SecondaryAttributes_Enemy_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/GameplayEffects/DefaultfAttributes/GE_SecondaryAttributes_Enemy_Test.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_AttributeMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_AttributeMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/AuraAttributeSet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/AuraAttributeSet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/ExecCalc/ExecCalc_Damage.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/ExecCalc/ExecCalc_Damage.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/Character/AuraEnemy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/Character/AuraEnemy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraProjectileSpell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraProjectileSpell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/Actor/AuraProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/Actor/AuraProjectile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/Player/AuraPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/Player/AuraPlayerController.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +32,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -566,7 +571,7 @@
       <workItem from="1750596017592" duration="496000" />
       <workItem from="1750596542384" duration="885000" />
       <workItem from="1750597468075" duration="1108000" />
-      <workItem from="1750643079849" duration="117309000" />
+      <workItem from="1750643079849" duration="128728000" />
     </task>
     <servers />
   </component>
