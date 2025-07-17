@@ -4,6 +4,7 @@
 #include "Character/AuraCharacterBase.h"
 //#include "GameplayEffectTypes.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Arua_GAS/Arua_GAS.h"
 #include "Components/CapsuleComponent.h"
@@ -65,10 +66,19 @@ void AAuraCharacterBase::BeginPlay()
 	
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	if (const FName* SocketName = CombatSocketMap.Find(MontageTag))
+	{
+		// 武器有独立 SkeletalMesh 就用它；否则默认用本体 Mesh
+		if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon)&& IsValid(Weapon))
+		{
+			return Weapon->GetSocketLocation(*SocketName);
+		}
+		return GetMesh()->GetSocketLocation(*SocketName);
+	}
+	return FVector();
 }
 
 bool AAuraCharacterBase::IsDead_Implementation() const
@@ -79,6 +89,11 @@ bool AAuraCharacterBase::IsDead_Implementation() const
 AActor* AAuraCharacterBase::GetAvatar_Implementation()
 {
 	return this;
+}
+
+TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()

@@ -28,7 +28,8 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 	
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());//减少耦合，用接口获得位置
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(
+		GetAvatarActorFromActorInfo(),FAuraGameplayTags::Get().Montage_Attack_Weapon);//减少耦合，用接口获得位置
 
 	FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		
