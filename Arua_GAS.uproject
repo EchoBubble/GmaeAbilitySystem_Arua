@@ -38,10 +38,6 @@
 		{
 			"Name": "MotionWarping",
 			"Enabled": true
-		},
-		{
-			"Name": "RiderLink",
-			"Enabled": false
 		}
 	]
 }
