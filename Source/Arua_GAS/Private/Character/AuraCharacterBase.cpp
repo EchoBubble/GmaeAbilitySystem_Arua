@@ -8,6 +8,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Arua_GAS/Arua_GAS.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
@@ -45,6 +46,7 @@ void AAuraCharacterBase::Die()
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 	Weapon->SetSimulatePhysics(true);//设置物理效果，不然分离组件后只是在原地
 	Weapon->SetEnableGravity(true);//确保重力开启
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);//设置碰撞为仅物理
