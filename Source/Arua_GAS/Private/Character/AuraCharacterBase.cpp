@@ -72,7 +72,7 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGamepl
 	if (const FName* SocketName = CombatSocketMap.Find(MontageTag))
 	{
 		// 武器有独立 SkeletalMesh 就用它；否则默认用本体 Mesh
-		if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon)&& IsValid(Weapon))
+		if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon)&& IsValid(Weapon))
 		{
 			return Weapon->GetSocketLocation(*SocketName);
 		}
@@ -99,6 +99,18 @@ TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation()
 UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
 {
 	return BloodEffect;
+}
+
+FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag)
+{
+	for (FTaggedMontage TaggedMontage : AttackMontages)
+	{
+		if (TaggedMontage.MontageTag == MontageTag)
+		{
+			return TaggedMontage;
+		}
+	}
+	return FTaggedMontage();
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()
