@@ -115,6 +115,11 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 	return FTaggedMontage();
 }
 
+int32 AAuraCharacterBase::GetMinionsCount_Implementation()
+{
+	return MinionCount;
+}
+
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
 	
