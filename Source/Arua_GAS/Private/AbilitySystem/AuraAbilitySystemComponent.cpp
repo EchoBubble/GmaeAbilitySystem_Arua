@@ -29,6 +29,8 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		}
 		//GiveAbilityAndActivateOnce(AbilitySpec);//参数不接受const类型
 	}
+	bStartupAbilities = true;
+	AbilitiesGivenDelegate.Broadcast(this);
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)

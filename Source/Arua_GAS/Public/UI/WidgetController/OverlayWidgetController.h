@@ -28,6 +28,7 @@ struct FUIWidgetRow : public FTableRowBase
 	
 };
 class UAuraUserWidget;
+class UAuraAbilitySystemComponent;
 /**
  * 
  */
@@ -39,8 +40,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature,float,NewMan
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature,float,NewMaxMana);*/
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,FUIWidgetRow,Row);
-
-
 
 
 UCLASS(BlueprintType, Blueprintable)
@@ -77,6 +76,8 @@ protected:
 	
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent);
 };
 
 template <typename T>
