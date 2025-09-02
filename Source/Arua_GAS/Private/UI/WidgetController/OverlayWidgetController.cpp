@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -53,10 +54,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	{
 		if (ASC->bStartupAbilities)
 		{
+			//这里的情况就是说技能已经赋予了，也广播了，但是这可能还没有绑定，广播是一次性的，错过就没了，所以这里进行补播
 			OnInitializeStartupAbilities(ASC);
 		}
 		else
 		{
+			//如果还没有广播，那这就绑定好先，等广播发送的时候这里自然就能收到通知，然后执行绑定函数
 			ASC->AbilitiesGivenDelegate.AddUObject(this,&UOverlayWidgetController::OnInitializeStartupAbilities);
 		}
 
@@ -84,6 +87,20 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 {
 	//TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
 	if (!AuraAbilitySystemComponent->bStartupAbilities) return;
+
+	//单播委托实例
+	FForEachAbility BroadcastDelegate;
+	//这里的绑定第一次因为 AbilitySpec 为空，所以只是绑定，不会执行具体内容
+	BroadcastDelegate.BindLambda(
+		[this,AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
+		{
+			//TODO need a way to figure out the ability tag for a given ability spec.
+			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
+			Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+			AbilityInfoDelegate.Broadcast(Info);
+		});
+	//调用 ASC 中定义的函数，现在由于检测到已经绑定了回调，会把函数里遍历的 spec 返回到 lambda 中，此时才会执行内容
+	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
 }
 
 

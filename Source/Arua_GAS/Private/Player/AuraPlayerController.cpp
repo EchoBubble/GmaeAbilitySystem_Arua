@@ -98,7 +98,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 	GetASC()->AbilityInputTagReleased(InputTag);
-	if (!bTargeting && !bAutoRunning)
+	if (!bTargeting && !bAutoRunning && !bShiftKeyDown)
 	{
 		APawn* ControllerPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControllerPawn)
