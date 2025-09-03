@@ -22,7 +22,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 {
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
 	{
-		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,1);
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,5);
 		if (const UAuraGameplayAbility* AuraGameplayAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability))//这里转化目标是AbilitySpec.Ability是因为要获得类默认对象的数据，AbilityClass是纯类型信息
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(AuraGameplayAbility->StartupInputTag);//通过DynamicAbilityTags添加标签
