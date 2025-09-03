@@ -52,7 +52,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	if (UAuraAbilitySystemComponent* ASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
 	{
-		if (ASC->bStartupAbilities)
+		if (ASC->bStartupAbilitiesGiven)
 		{
 			//这里的情况就是说技能已经赋予了，也广播了，但是这可能还没有绑定，广播是一次性的，错过就没了，所以这里进行补播
 			OnInitializeStartupAbilities(ASC);
@@ -86,7 +86,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
 {
 	//TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
-	if (!AuraAbilitySystemComponent->bStartupAbilities) return;
+	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
 
 	//单播委托实例
 	FForEachAbility BroadcastDelegate;

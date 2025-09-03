@@ -31,7 +31,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		//GiveAbilityAndActivateOnce(AbilitySpec);//参数不接受const类型
 	}
 	//这里是指已经赋予技能了，变量为真，已经广播，但接收方可能还未绑定，所以该布尔就是个记录员
-	bStartupAbilities = true;
+	bStartupAbilitiesGiven = true;
 	AbilitiesGivenDelegate.Broadcast(this);
 }
 
@@ -97,12 +97,23 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
 {
 	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags)
 	{
-		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Input"))))
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
 		{
 			return Tag;
 		}
 	}
 	return FGameplayTag();
+}
+
+void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+	Super::OnRep_ActivateAbilities();
+
+	if (!bStartupAbilitiesGiven)
+	{
+		bStartupAbilitiesGiven = true;
+		AbilitiesGivenDelegate.Broadcast(this);
+	}
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
