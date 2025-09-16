@@ -41,10 +41,10 @@ public:
 
 	//这两个委托来自于OverlayWidgetController
 	UPROPERTY(BlueprintAssignable)
-	FOnAttrhibuteChangeSignature OnHealthChanged;
+	FOnAttributeChangeSignature OnHealthChanged;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnAttrhibuteChangeSignature OnMaxHealthChanged;
+	FOnAttributeChangeSignature OnMaxHealthChanged;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
