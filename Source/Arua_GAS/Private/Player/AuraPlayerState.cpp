@@ -40,7 +40,7 @@ void AAuraPlayerState::AddLevel(int32 InLevel)
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
-void AAuraPlayerState::SetLevel(int32 InLevel)
+void AAuraPlayerState::SetLevel(int32 InLevel)  
 {
 	Level = InLevel;
 	OnLevelChangedDelegate.Broadcast(Level);
