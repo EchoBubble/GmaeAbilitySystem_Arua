@@ -29,8 +29,11 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	GetCapturedAttributeMagnitude(VigorDef,Spec,EvaluateParameters,Vigor);//这里相当于是把捕获的属性传递出去并且知道效果规格上下文和所有的标签，判断是否有buff
 	Vigor = FMath::Max<float>(Vigor,0.f);
 
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());//得到施加者的战斗接口
-	const int32 PlayerLevel = CombatInterface->GetPlayerLevel();//通过源的接口函数得到等级
+	int32 PlayerLevel = 1;
+	if (Spec.GetContext().GetSourceObject()->Implements<UCombatInterface>())
+	{
+		PlayerLevel = ICombatInterface::Execute_GetPlayerLevel(Spec.GetContext().GetSourceObject());
+	}
 
 	return 80.f + 2.5f * Vigor + 10.f * PlayerLevel;//返回最终自定义的数值
 }
