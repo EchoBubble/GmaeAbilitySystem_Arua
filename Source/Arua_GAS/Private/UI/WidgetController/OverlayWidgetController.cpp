@@ -25,6 +25,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+	AuraPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel)
+	{
+		OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+	});
 	
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 	
@@ -100,7 +105,7 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 	BroadcastDelegate.BindLambda(
 		[this,AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
 		{
-			//TODO need a way to figure out the ability tag for a given ability spec.
+			//TODO: need a way to figure out the ability tag for a given ability spec.
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
 			Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
 			AbilityInfoDelegate.Broadcast(Info);

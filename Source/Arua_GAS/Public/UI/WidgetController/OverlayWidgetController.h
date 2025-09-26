@@ -34,6 +34,7 @@ class UAuraAbilitySystemComponent;
  * 
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangeSignature,float,NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatSignature,int32,NewValue);
 
 /*DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeSignature,float,NewHealth);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangeSignature,float,NewMaxHealth);
@@ -73,6 +74,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
 	FOnAttributeChangeSignature OnXPPercentChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Level")
+	FOnPlayerStatSignature OnPlayerLevelChangedDelegate;
 
 protected:
 
