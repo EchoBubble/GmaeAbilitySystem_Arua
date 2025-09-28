@@ -7,6 +7,9 @@
 #include "Interaction/PlayerInterface.h"
 #include "AuraCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+class UNiagaraComponent;
 /**
  * 
  */
@@ -35,8 +38,20 @@ public:
 	/* Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
 	/* end combat Interface */
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
 	
 private:
-	virtual void InitAbilityActorInfo()override;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCameraComponent> TopDownCameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpringArmComponent> CameraBoom;
 	
+	virtual void InitAbilityActorInfo()override;
+
+	UFUNCTION(NetMulticast, reliable)
+	void MulticastLevelUpParticles();
 };
