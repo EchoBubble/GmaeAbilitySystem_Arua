@@ -42,6 +42,9 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 		//Info.AttributeValue = Pair.Value.Execute().GetNumericValue(AS);//旧版本值需要通过Execute来调用函数了
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
+
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag,const FGameplayAttribute& Attribute) const
