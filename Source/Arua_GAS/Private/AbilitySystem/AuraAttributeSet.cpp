@@ -209,8 +209,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointsReward);
 				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointsReward);
 
-				bTopOffHealth = true;
-				bTopOffMana = true;
+				/*bTopOffHealth = true;
+				bTopOffMana = true;*/
 				
 				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
 			}
@@ -225,7 +225,11 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
-	if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
+	/*
+	 *	该版本是用变量判断，如果是大型项目，推荐用委托方法 
+	 */
+	 
+	/*if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
 	{
 		SetHealth(GetMaxHealth());
 		bTopOffHealth = false;
@@ -234,7 +238,7 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	{
 		SetMana(GetMaxMana());
 		bTopOffMana = false;
-	}
+	}*/
 }
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const

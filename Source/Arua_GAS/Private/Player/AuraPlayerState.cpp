@@ -38,6 +38,16 @@ void AAuraPlayerState::AddLevel(int32 InLevel)
 {
 	Level += InLevel;
 	OnLevelChangedDelegate.Broadcast(Level);
+	
+	if (auto* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		AuraASC->OnModifierDependencyChanged.Broadcast();                    // 新增：通知 MMC 重算
+		if (UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(Attributes))
+		{
+			AS->SetHealth(AS->GetMaxHealth());
+			AS->SetMana(AS->GetMaxMana());
+		}
+	}
 }
 
 void AAuraPlayerState::AddAttributePoints(int32 InPoints)
@@ -56,6 +66,16 @@ void AAuraPlayerState::SetLevel(int32 InLevel)
 {
 	Level = InLevel;
 	OnLevelChangedDelegate.Broadcast(Level);
+
+	if (auto* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		AuraASC->OnModifierDependencyChanged.Broadcast();                    // 新增：通知 MMC 重算
+		if (UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(Attributes))
+		{
+			AS->SetHealth(AS->GetMaxHealth());
+			AS->SetMana(AS->GetMaxMana());
+		}
+	}
 }
 
 void AAuraPlayerState::SetXP(int32 InXP)

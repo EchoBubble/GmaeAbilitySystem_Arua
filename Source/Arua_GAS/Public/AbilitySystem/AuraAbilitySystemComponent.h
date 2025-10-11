@@ -40,6 +40,12 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerUpdateAttributes(const FGameplayTag& AttributeTag);
+
+	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
+	FORCEINLINE FOnExternalGameplayModifierDependencyChange* GetOnModifierDependencyChanged()
+	{
+		return &OnModifierDependencyChanged;
+	}
 protected:
 
 	virtual void OnRep_ActivateAbilities() override;

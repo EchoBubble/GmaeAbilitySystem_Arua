@@ -19,6 +19,7 @@ public:
 
 	virtual float CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const override;
 
+	virtual FOnExternalGameplayModifierDependencyChange* GetExternalModifierDependencyMulticast(const FGameplayEffectSpec& Spec, UWorld* World) const override;
 private:
 
 	FGameplayEffectAttributeCaptureDefinition IntelligenceDef;

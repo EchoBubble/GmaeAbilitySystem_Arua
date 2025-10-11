@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
+#include "GameplayModMagnitudeCalculation.h"
 #include "AuraPlayerState.generated.h"
 
 
@@ -47,6 +48,7 @@ public:
 	
 	void SetXP(int32 InXP);
 	void SetLevel(int32 InLevel);
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

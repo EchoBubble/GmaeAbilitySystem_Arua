@@ -3,8 +3,11 @@
 
 #include "AbilitySystem/ModMagCalc/MMC_MaxMana.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interaction/CombatInterface.h"
+#include "Player/AuraPlayerState.h"
 
 UMMC_MaxMana::UMMC_MaxMana()
 {
@@ -38,4 +41,21 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 
 	return 50.f + 2.5f * Intelligence + 15.f * PlayerLevel;
 	
+}
+
+FOnExternalGameplayModifierDependencyChange* UMMC_MaxMana::GetExternalModifierDependencyMulticast(
+	const FGameplayEffectSpec& Spec, UWorld* World) const
+{
+	if (const UObject* SourceObj = Spec.GetContext().GetSourceObject())
+	{
+		if (const AActor* SourceActor = Cast<AActor>(SourceObj))
+		{
+			if (UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(const_cast<AActor*>(SourceActor)))
+			{
+				return &Cast<UAuraAbilitySystemComponent>(ASC)->OnModifierDependencyChanged;
+			}
+		}
+	}
+	
+	return Super::GetExternalModifierDependencyMulticast(Spec, World);
 }

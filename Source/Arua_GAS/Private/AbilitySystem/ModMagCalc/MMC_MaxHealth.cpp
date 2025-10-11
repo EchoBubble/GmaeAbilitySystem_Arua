@@ -3,8 +3,11 @@
 
 #include "AbilitySystem/ModMagCalc/MMC_MaxHealth.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interaction/CombatInterface.h"
+#include "Player/AuraPlayerState.h"
 
 UMMC_MaxHealth::UMMC_MaxHealth()
 {
@@ -36,4 +39,23 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	}
 
 	return 80.f + 2.5f * Vigor + 10.f * PlayerLevel;//返回最终自定义的数值
+}
+
+FOnExternalGameplayModifierDependencyChange* UMMC_MaxHealth::GetExternalModifierDependencyMulticast(
+	const FGameplayEffectSpec& Spec, UWorld* World) const
+{
+	// 优先从 SourceObject 找角色/控制器，再取 PlayerState
+	if (const UObject* SourceObj = Spec.GetContext().GetSourceObject())
+	{
+		if (const AActor* SourceActor = Cast<AActor>(SourceObj))
+		{
+			if (UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(const_cast<AActor*>(SourceActor)))
+			{
+				return &Cast<UAuraAbilitySystemComponent>(ASC)->OnModifierDependencyChanged;
+			}
+		}
+	}
+
+	// 兜底
+	return Super::GetExternalModifierDependencyMulticast(Spec, World);
 }
