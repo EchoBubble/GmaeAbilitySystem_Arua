@@ -51,6 +51,7 @@ FOnExternalGameplayModifierDependencyChange* UMMC_MaxHealth::GetExternalModifier
 		{
 			if (UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(const_cast<AActor*>(SourceActor)))
 			{
+				//这里必须返回委托实例，不需要绑定 lambda 等，这里引擎会自己处理
 				return &Cast<UAuraAbilitySystemComponent>(ASC)->OnModifierDependencyChanged;
 			}
 		}

@@ -41,6 +41,7 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerUpdateAttributes(const FGameplayTag& AttributeTag);
 
+	//这里的委托是服务于 MMC 的，通知 MMC 应该刷新了
 	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
 	FORCEINLINE FOnExternalGameplayModifierDependencyChange* GetOnModifierDependencyChanged()
 	{
