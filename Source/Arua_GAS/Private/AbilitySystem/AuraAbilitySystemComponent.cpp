@@ -34,7 +34,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 	}
 	//这里是指已经赋予技能了，变量为真，已经广播，但接收方可能还未绑定，所以该布尔就是个记录员
 	bStartupAbilitiesGiven = true;
-	AbilitiesGivenDelegate.Broadcast(this);
+	AbilitiesGivenDelegate.Broadcast();
 }
 
 void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
@@ -148,7 +148,7 @@ void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 	if (!bStartupAbilitiesGiven)
 	{
 		bStartupAbilitiesGiven = true;
-		AbilitiesGivenDelegate.Broadcast(this);
+		AbilitiesGivenDelegate.Broadcast();
 	}
 }
 

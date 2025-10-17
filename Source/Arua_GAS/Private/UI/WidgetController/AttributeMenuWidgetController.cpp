@@ -20,8 +20,8 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 				BroadcastAttributeInfo(Pair.Key, Pair.Value());
 			});
 	}
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	AuraPlayerState->OnAttributeChangedDelegate.AddLambda(
+	
+	GetAuraPS()->OnAttributeChangedDelegate.AddLambda(
 		[this](int32 Points)
 		{
 			AttributePointsChangedDelegate.Broadcast(Points);
@@ -43,9 +43,8 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 		//Info.AttributeValue = Pair.Value.Execute().GetNumericValue(AS);//旧版本值需要通过Execute来调用函数了
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
-
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
+	
+	AttributePointsChangedDelegate.Broadcast(GetAuraPS()->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::UpgradingAttributes(const FGameplayTag& AttributeTag)
