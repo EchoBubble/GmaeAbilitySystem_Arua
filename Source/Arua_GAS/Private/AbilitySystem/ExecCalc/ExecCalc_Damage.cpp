@@ -100,7 +100,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	int32 TargetPlayerLevel = 1;
 	if (TargetActor->Implements<UCombatInterface>())
 	{
-		TargetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(SourceActor);
+		TargetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(TargetActor);
 	}
 
 	//获取当前GE的实例
