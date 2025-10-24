@@ -40,6 +40,7 @@ void UAuraWidgetController::BroadcastAbilityInfo()
 			if (!AbilityTag.IsValid()) return;
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
 			Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+			Info.StatusTag = AuraAbilitySystemComponent->GetStatusFromSpec(AbilitySpec);
 			AbilityInfoDelegate.Broadcast(Info);
 		});
 	//调用 ASC 中定义的函数，现在由于检测到已经绑定了回调，会把函数里遍历的 spec 返回到 lambda 中，此时才会执行内容
