@@ -11,6 +11,7 @@ class UAuraAbilitySystemComponent;
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags */)
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven)
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/)
 /**
  * 
  */
@@ -24,6 +25,7 @@ public:
 
 	FEffectAssetTags EffectAssetTags;
 	FAbilitiesGiven AbilitiesGivenDelegate;
+	FAbilityStatusChanged AbilityStatusChanged;
 
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>> &StartupAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>> &StartupPassiveAbilities);
@@ -37,10 +39,14 @@ public:
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
+	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
+
 	void UpgradingAttributes(const FGameplayTag& AttributeTag);
 
 	UFUNCTION(Server, Reliable)
 	void ServerUpdateAttributes(const FGameplayTag& AttributeTag);
+
+	void UpdateAbilityStatuses(int32 Level);
 
 	//这里的委托是服务于 MMC 的，通知 MMC 应该刷新了
 	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
@@ -54,5 +60,7 @@ protected:
 
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
-	
+
+	UFUNCTION(Client, Reliable)
+	void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);
 };
