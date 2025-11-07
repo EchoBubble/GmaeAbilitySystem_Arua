@@ -48,6 +48,9 @@ public:
 
 	void UpdateAbilityStatuses(int32 Level);
 
+	UFUNCTION(Server, Reliable)
+	void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
+
 	//这里的委托是服务于 MMC 的，通知 MMC 应该刷新了
 	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
 	FORCEINLINE FOnExternalGameplayModifierDependencyChange* GetOnModifierDependencyChanged()
