@@ -131,6 +131,12 @@ UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObj
 
 UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
 {
+	if (const APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject,0))
+	{
+		const AAuraPlayerState* PS = PC->GetPlayerState<AAuraPlayerState>();
+		if (PS == nullptr) return nullptr;
+		return PS->AbilityInfo;
+	}
 	const AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (AuraGameMode == nullptr)return nullptr;
 	return AuraGameMode->AbilityInfo;

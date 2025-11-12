@@ -9,6 +9,7 @@
 #include "AuraPlayerState.generated.h"
 
 
+class UAbilityInfo;
 class ULevelUpInfo;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -30,6 +31,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
+
+	// PS 服务器和客户端都存在，避免之前 game mode 版本报错
+	UPROPERTY(EditDefaultsOnly, Category = "AbilityInfo")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
 
 	FOnPlayerStatChanged OnXPChangedDelegate;
 	FOnPlayerStatChanged OnLevelChangedDelegate;

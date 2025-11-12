@@ -8,7 +8,8 @@
 #include "GameplayTagContainer.h"
 #include "SpellMenuWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSpellGlobeSelectSignature, bool, bSpendPointsButtonEnabled, bool, bEquipButton);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectSignature, bool, bSpendPointsButtonEnabled, bool,bEquipButtonEnabled,
+	FString, DescriptionString, FString, NextLevelDescription);
 
 struct FSelectedAbility
 {

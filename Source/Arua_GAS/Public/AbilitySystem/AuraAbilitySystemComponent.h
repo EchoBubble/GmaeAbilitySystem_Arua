@@ -51,6 +51,8 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
 
+	bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
+
 	//这里的委托是服务于 MMC 的，通知 MMC 应该刷新了
 	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
 	FORCEINLINE FOnExternalGameplayModifierDependencyChange* GetOnModifierDependencyChanged()
@@ -66,4 +68,6 @@ protected:
 
 	UFUNCTION(Client, Reliable)
 	void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel);
+
+	virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;
 };
