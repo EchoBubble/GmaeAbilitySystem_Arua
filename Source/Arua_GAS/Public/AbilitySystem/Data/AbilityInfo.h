@@ -37,6 +37,12 @@ struct FAuraAbilityInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayAbility> Ability;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (MultiLine = true))
+	FString Description;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (MultiLine = true))
+	FString NextLevelDescription;
 };
 /**
  * 
@@ -50,4 +56,6 @@ public:
 	TArray<FAuraAbilityInfo> AbilityInformation;
 
 	FAuraAbilityInfo FindAbilityInfoForTag(const FGameplayTag& AbilityTag, bool bLogNotFound = false) const;
+
+	FString FormatDescription(const FAuraAbilityInfo& Info, int32 Level,float Cost,float Cooldown, int32 SpawnNumber, float Damage,bool bNextLevel) const;
 };

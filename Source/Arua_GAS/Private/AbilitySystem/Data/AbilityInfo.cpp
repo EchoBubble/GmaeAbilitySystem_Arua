@@ -23,3 +23,26 @@ FAuraAbilityInfo UAbilityInfo::FindAbilityInfoForTag(const FGameplayTag& Ability
 	
 	return FAuraAbilityInfo();
 }
+
+FString UAbilityInfo::FormatDescription(const FAuraAbilityInfo& Info, int32 Level, float Cost, float Cooldown, int32 SpawnNumber, float Damage, bool bNextLevel) const
+{
+	FString Result = bNextLevel ? Info.NextLevelDescription : Info.Description;
+
+	// 1) 等级相关
+	Result = Result.Replace(TEXT("_Level_"),      *FString::FromInt(Level));
+	Result = Result.Replace(TEXT("_NextLevel_"),  *FString::FromInt(Level + 1));
+
+	// 2) 花费、冷却、伤害（按需替换）
+	Result = Result.Replace(TEXT("_Cost_"),  *FString::SanitizeFloat(Cost));
+	Result = Result.Replace(TEXT("_CD_"),    *FString::SanitizeFloat(Cooldown));
+	Result = Result.Replace(TEXT("_Damage_"),   *FString::SanitizeFloat(Damage));
+	if (bNextLevel || Level > 1)
+	{
+		Result = Result.Replace(TEXT("_SpawnNumber_"),   *FString::FromInt(SpawnNumber));
+	}
+
+	//return FText::FromString(Result);
+	return Result;
+}
+
+

@@ -6,6 +6,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "AuraGameplayAbility.generated.h"
 
+class UAbilityInfo;
 /**
  * 
  */
@@ -18,8 +19,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StartupInputTag;
 
-	virtual FString GetDescription(int32 Level);
-	virtual FString GetNextLevelDescription(int32 Level);
+	virtual FString GetDescription(int32 Level,UAbilityInfo* AbilityInfo);
+	virtual FString GetNextLevelDescription(int32 Level,UAbilityInfo* AbilityInfo);
 	static FString GetLockedDescription(int32 Level);
 
 protected:

@@ -4,13 +4,27 @@
 #include "AbilitySystem/Abilities/AuraFireBolt.h"
 
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
-FString UAuraFireBolt::GetDescription(int32 Level)
+FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
 	const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
+
+	if (!AbilityInfo)
+	{
+		return FString("AbilityInfo is null");
+	}
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(FAuraGameplayTags::Get().Abilities_Fire_FireBolt);
+
 	if (Level == 1)
+	{
+		return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,1,Damage,false);
+	}
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),Damage,true);
+	
+	/*if (Level == 1)
 	{
 		return FString::Printf(TEXT(
 			// Title
@@ -57,15 +71,22 @@ FString UAuraFireBolt::GetDescription(int32 Level)
 			),
 			// Values
 			Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), Damage);
-	}
+	}*/
 }
 
-FString UAuraFireBolt::GetNextLevelDescription(int32 Level)
+FString UAuraFireBolt::GetNextLevelDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
 	const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
-	return FString::Printf(TEXT(
+
+	if (!AbilityInfo)
+	{
+		return FString("AbilityInfo is null");
+	}
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(FAuraGameplayTags::Get().Abilities_Fire_FireBolt);
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),Damage,true);
+	/*return FString::Printf(TEXT(
 			// Title
 			"<Title>Next Level</>\n\n"
 
@@ -83,5 +104,5 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level)
 			"<Default> fire damage with a chance to burn</>"
 			),
 			// Values
-			Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), Damage);
+			Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), Damage);*/
 }

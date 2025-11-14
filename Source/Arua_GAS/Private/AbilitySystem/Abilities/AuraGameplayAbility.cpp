@@ -5,13 +5,13 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 
-FString UAuraGameplayAbility::GetDescription(int32 Level)
+FString UAuraGameplayAbility::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
 	return FString::Printf(TEXT("<Default>%s, </><Level>%d</>"),
 		L"Default Ability Name - LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum",Level);
 }
 
-FString UAuraGameplayAbility::GetNextLevelDescription(int32 Level)
+FString UAuraGameplayAbility::GetNextLevelDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
 	return FString::Printf(TEXT("<Default>Next Level: </><Level>%d</> \n<Default>Causes much more damage </>"),Level);
 }
