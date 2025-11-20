@@ -16,13 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Aura/Abilities/Fire/FireBolt/GA_FireBolt.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Aura/Abilities/Fire/FireBolt/GA_FireBolt.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_EnemyFireBolt.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_EnemyFireBolt.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_MeleeAttack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_MeleeAttack.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_Ranged_Attack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_Ranged_Attack.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraDamageGameplayAbility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraDamageGameplayAbility.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraFireBolt.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraFireBolt.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraProjectileSpell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraProjectileSpell.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AuraGameplayTags.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraDamageGameplayAbility.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraDamageGameplayAbility.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" afterDir="false" />
@@ -539,7 +532,7 @@
       <workItem from="1761188282368" duration="138743000" />
       <workItem from="1762503592770" duration="10689000" />
       <workItem from="1762738158536" duration="64721000" />
-      <workItem from="1762936688276" duration="152627000" />
+      <workItem from="1762936688276" duration="153990000" />
     </task>
     <servers />
   </component>
