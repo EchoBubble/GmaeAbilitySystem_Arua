@@ -8,7 +8,8 @@
 
 FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
-	const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
+	//const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
+	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
 
@@ -20,9 +21,9 @@ FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 
 	if (Level == 1)
 	{
-		return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,1,Damage,false);
+		return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,1,ScaledDamage,false);
 	}
-	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),Damage,true);
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),ScaledDamage,true);
 	
 	/*if (Level == 1)
 	{
@@ -76,7 +77,7 @@ FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 
 FString UAuraFireBolt::GetNextLevelDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
-	const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
+	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
 
@@ -85,7 +86,7 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level,UAbilityInfo* Ability
 		return FString("AbilityInfo is null");
 	}
 	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(FAuraGameplayTags::Get().Abilities_Fire_FireBolt);
-	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),Damage,true);
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),ScaledDamage,true);
 	/*return FString::Printf(TEXT(
 			// Title
 			"<Title>Next Level</>\n\n"
