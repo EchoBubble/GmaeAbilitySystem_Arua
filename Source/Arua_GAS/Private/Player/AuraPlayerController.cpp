@@ -15,6 +15,7 @@
 #include "Runtime/AIModule/Classes/AIController.h"
 #include "UI/Widget/DamageTextComponent.h"
 
+using namespace AuraGameplayTags;
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -80,7 +81,7 @@ void AAuraPlayerController::CursorTrace()
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
 	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
-	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	if (InputTag.MatchesTagExact(InputTag_LMB))
 	{
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
@@ -89,7 +90,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	if (!InputTag.MatchesTagExact(InputTag_LMB))
 	{
 		if (GetASC())
 		{
@@ -125,7 +126,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))//不是左键就就运行其他键位的技能
+	if (!InputTag.MatchesTagExact(InputTag_LMB))//不是左键就就运行其他键位的技能
 	{
 		if (GetASC())
 		{

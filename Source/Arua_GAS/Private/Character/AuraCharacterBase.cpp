@@ -9,7 +9,7 @@
 #include "Arua_GAS/Arua_GAS.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
-
+using namespace AuraGameplayTags;
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -70,11 +70,11 @@ void AAuraCharacterBase::BeginPlay()
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	if (const FName* SocketName = CombatSocketMap.Find(MontageTag))
 	{
 		// 武器有独立 SkeletalMesh 就用它；否则默认用本体 Mesh
-		if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon)&& IsValid(Weapon))
+		if (MontageTag.MatchesTagExact(CombatSocket_Weapon)&& IsValid(Weapon))
 		{
 			return Weapon->GetSocketLocation(*SocketName);
 		}

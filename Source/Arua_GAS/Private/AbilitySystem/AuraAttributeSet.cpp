@@ -16,37 +16,39 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 
+using namespace AuraGameplayTags;
+
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
 	//FAttributeSignature StrengthSignature;
 	//StrengthSignature.BindStatic(UAuraAttributeSet::GetStrengthAttribute);
 	/*Primary Attributes*/
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Vigor, GetVigorAttribute);
+	TagsToAttributes.Add(Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttributes.Add(Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagsToAttributes.Add(Attributes_Primary_Resilience, GetResilienceAttribute);
+	TagsToAttributes.Add(Attributes_Primary_Vigor, GetVigorAttribute);
 	/*RandomFunctionPointer = RandomFunction;
 	float F = RandomFunctionPointer(0,0.f,0);*/
 
 	/*Secondary Attributes*/
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_BlockChance, GetBlockChanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitDamage, GetCriticalHitDamageAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitResistance, GetCriticalHitResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_Armor, GetArmorAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_BlockChance, GetBlockChanceAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_CriticalHitDamage, GetCriticalHitDamageAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_CriticalHitResistance, GetCriticalHitResistanceAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
+	TagsToAttributes.Add(Attributes_Secondary_MaxMana, GetMaxManaAttribute);
 
 	/*Resistance Attributes*/
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
+	TagsToAttributes.Add(Attributes_Resistance_Fire, GetFireResistanceAttribute);
+	TagsToAttributes.Add(Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
+	TagsToAttributes.Add(Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
+	TagsToAttributes.Add(Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -179,7 +181,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			else
 			{
 				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				TagContainer.AddTag(Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);//因为敌人是受击方，所以这里是调用的Target
 			}
 			const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
@@ -241,18 +243,18 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	}*/
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float DamageValue, bool bBlockedHit, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.SourceController))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
+			PC->ShowDamageNumber(DamageValue, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 			return;
 		}
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.TargetController))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
+			PC->ShowDamageNumber(DamageValue, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
 }
@@ -265,11 +267,11 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
 		const int32 XPReward = UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
 
-		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+		//const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 		FGameplayEventData PayLoad;
-		PayLoad.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
+		PayLoad.EventTag = Attributes_Meta_IncomingXP;
 		PayLoad.EventMagnitude = XPReward;
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP, PayLoad);
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter,Attributes_Meta_IncomingXP, PayLoad);
 	}
 }
 

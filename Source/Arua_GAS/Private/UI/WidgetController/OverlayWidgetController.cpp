@@ -10,6 +10,8 @@
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "Player/AuraPlayerState.h"
 
+using namespace AuraGameplayTags;
+
 void UOverlayWidgetController::BroadcastInitialValues()
 {
 	//OnHealthChanged.Broadcast(100);
@@ -118,12 +120,12 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 
 void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot) const
 {
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
 	FAuraAbilityInfo LastSlotInfo;
-	LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Locked;
+	LastSlotInfo.StatusTag = Abilities_Status_Locked;
 	LastSlotInfo.InputTag = PreviousSlot;
-	LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
+	LastSlotInfo.AbilityTag = Abilities_None;
 	// Broadcast empty info if PreviousSlot is a valid slot. Only if equipping an already-equipped spell
 	AbilityInfoDelegate.Broadcast(LastSlotInfo);
 

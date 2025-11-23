@@ -60,5 +60,5 @@ public:
 
 	FAuraAbilityInfo FindAbilityInfoForTag(const FGameplayTag& AbilityTag, bool bLogNotFound = false) const;
 
-	FString FormatDescription(const FAuraAbilityInfo& Info, int32 Level,float Cost,float Cooldown, int32 SpawnNumber, float Damage,bool bNextLevel) const;
+	FString FormatDescription(const FAuraAbilityInfo& Info, int32 Level,float Cost,float Cooldown, int32 SpawnNumber, float DamageValue,bool bNextLevel) const;
 };

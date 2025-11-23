@@ -8,6 +8,8 @@
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerState.h"
 
+using namespace AuraGameplayTags;
+
 void USpellMenuWidgetController::BroadcastInitialValues()
 {
 	BroadcastAbilityInfo();
@@ -65,18 +67,18 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 		bWaitingForEquipSelection = false;
 	}
 	
-	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 	const int32 SpellPoints = GetAuraPS()->GetSpellPoints();
 	FGameplayTag AbilityStatus;
 
 	const bool bTagValid = AbilityTag.IsValid();
-	const bool bTagNone = AbilityTag.MatchesTag(GameplayTags.Abilities_None);
+	const bool bTagNone = AbilityTag.MatchesTag(Abilities_None);
 	FGameplayAbilitySpec* AbilitySpec = GetAuraASC()->GetSpecFromAbilityTag(AbilityTag);
 	const bool bSpecValid = AbilitySpec != nullptr;
 
 	if (!bTagValid || bTagNone || !bSpecValid)
 	{
-		AbilityStatus = GameplayTags.Abilities_Status_Locked;
+		AbilityStatus = Abilities_Status_Locked;
 	}
 	else
 	{
@@ -111,8 +113,8 @@ void USpellMenuWidgetController::GlobeDeselect()
 		StopWaitForEquipDelegate.Broadcast(SelectedAbilityType);
 		bWaitingForEquipSelection = false;
 	}
-	SelectedAbility.Ability = FAuraGameplayTags::Get().Abilities_None;
-	SelectedAbility.Status = FAuraGameplayTags::Get().Abilities_Status_Locked;
+	SelectedAbility.Ability = Abilities_None;
+	SelectedAbility.Status = Abilities_Status_Locked;
 
 	SpellGlobeSelectDelegate.Broadcast(false,false,FString(),FString());
 }
@@ -125,7 +127,7 @@ void USpellMenuWidgetController::EquipButtonPressed()
 	bWaitingForEquipSelection = true;
 
 	const FGameplayTag SelectedStatus = GetAuraASC()->GetStatusFromAbilityTag(SelectedAbility.Ability);
-	if (SelectedStatus.MatchesTagExact(FAuraGameplayTags::Get().Abilities_Status_Equipped))
+	if (SelectedStatus.MatchesTagExact(Abilities_Status_Equipped))
 	{
 		SelectedSlot = GetAuraASC()->GetInputTagFromAbilityTag(SelectedAbility.Ability);//当前这一刻的 InputTag，等于旧的标签
 	}
@@ -146,12 +148,12 @@ void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTa
 {
 	bWaitingForEquipSelection = false;
 
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
 	FAuraAbilityInfo LastSlotInfo;
-	LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Locked;
+	LastSlotInfo.StatusTag = Abilities_Status_Locked;
 	LastSlotInfo.InputTag = PreviousSlot;
-	LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
+	LastSlotInfo.AbilityTag = Abilities_None;
 	// Broadcast empty info if PreviousSlot is a valid slot. Only if equipping an already-equipped spell
 	AbilityInfoDelegate.Broadcast(LastSlotInfo);
 
@@ -167,12 +169,12 @@ void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTa
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints,bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton)
 {
-	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+	//const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 
 	bShouldEnableSpellPointsButton = false;
 	bShouldEnableEquipButton = false;
 	
-	if (AbilityStatus.MatchesTag(GameplayTags.Abilities_Status_Equipped))
+	if (AbilityStatus.MatchesTag(Abilities_Status_Equipped))
 	{
 		bShouldEnableEquipButton = true;
 		if (SpellPoints > 0)
@@ -180,14 +182,14 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
 			bShouldEnableSpellPointsButton = true;
 		}
 	}
-	else if (AbilityStatus.MatchesTag(GameplayTags.Abilities_Status_Eligible))
+	else if (AbilityStatus.MatchesTag(Abilities_Status_Eligible))
 	{
 		if (SpellPoints > 0)
 		{
 			bShouldEnableSpellPointsButton = true;
 		}
 	}
-	else if (AbilityStatus.MatchesTag(GameplayTags.Abilities_Status_Unlocked))
+	else if (AbilityStatus.MatchesTag(Abilities_Status_Unlocked))
 	{
 		bShouldEnableEquipButton = true;
 		if (SpellPoints > 0)

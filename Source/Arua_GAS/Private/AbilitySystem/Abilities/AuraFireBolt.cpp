@@ -6,6 +6,8 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
+using namespace AuraGameplayTags;
+
 FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 {
 	//const int32 Damage = GetDamageByDamageType(Level, FAuraGameplayTags::Get().Damage_Fire);
@@ -17,7 +19,7 @@ FString UAuraFireBolt::GetDescription(int32 Level,UAbilityInfo* AbilityInfo)
 	{
 		return FString("AbilityInfo is null");
 	}
-	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(FAuraGameplayTags::Get().Abilities_Fire_FireBolt);
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Fire_FireBolt);
 
 	if (Level == 1)
 	{
@@ -85,7 +87,7 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level,UAbilityInfo* Ability
 	{
 		return FString("AbilityInfo is null");
 	}
-	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(FAuraGameplayTags::Get().Abilities_Fire_FireBolt);
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Fire_FireBolt);
 	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, NumProjectiles),ScaledDamage,true);
 	/*return FString::Printf(TEXT(
 			// Title
