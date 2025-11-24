@@ -42,9 +42,29 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* M
 		{
 			RepBits |= 1 << 8;
 		}
+		if (bIsSuccessfulDebuff)
+		{
+			RepBits |= 1 << 9;
+		}
+		if (DebuffDamage > 0.f)
+		{
+			RepBits |= 1 << 10;
+		}
+		if (DebuffDuration > 0.f)
+		{
+			RepBits |= 1 << 11;
+		}
+		if (DebuffFrequency > 0.f)
+		{
+			RepBits |= 1 << 12;
+		}
+		if (DamageType.IsValid())
+		{
+			RepBits |= 1 << 13;
+		}
 	}
 
-	Ar.SerializeBits(&RepBits, 9);
+	Ar.SerializeBits(&RepBits, 14);
 
 	if (RepBits & (1 << 0))
 	{
@@ -95,7 +115,34 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* M
 	{
 		Ar << bIsCriticalHit;
 	}
-
+	if (RepBits & (1 << 9))
+	{
+		Ar << bIsSuccessfulDebuff;
+	}
+	if (RepBits & (1 << 10))
+	{
+		Ar << DebuffDamage;
+	}
+	if (RepBits & (1 << 11))
+	{
+		Ar << DebuffDuration;
+	}
+	if (RepBits & (1 << 12))
+	{
+		Ar << DebuffFrequency;
+	}
+	if (RepBits & (1 << 13))
+	{
+		if (Ar.IsLoading()) // 如果现在是在“读网络数据”（客户端这一侧）
+		{
+			if (!DamageType.IsValid())// 指针里还没有对象
+			{
+				DamageType = MakeShared<FGameplayTag>();//新写法  new 一个 FGameplayTag 出来
+			}
+		}
+		// 不管是读还是写，只要走到这里，就让 FGameplayTag 自己做 NetSerialize
+		DamageType->NetSerialize(Ar, Map, bOutSuccess);
+	}
 	if (Ar.IsLoading())
 	{
 		AddInstigator(Instigator.Get(),EffectCauser.Get()); // Just to initialize InstigatorAbilitySystemComponent
