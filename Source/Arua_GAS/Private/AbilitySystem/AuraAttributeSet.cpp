@@ -226,8 +226,8 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 
 	FInheritedTagContainer TagContainer;
-	TagContainer.Added.AddTag(DamageTypesToDebuffs[DamageType]);
-	TagContainer.CombinedTags.AddTag(DamageTypesToDebuffs[DamageType]);
+	TagContainer.Added.AddTag(DamageTypesToDebuffs[DamageType]);//本次添加的标签
+	TagContainer.CombinedTags.AddTag(DamageTypesToDebuffs[DamageType]);//最后所有的标签，整体流程是 UE 官方推荐这么做的
 
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	Component.SetAndApplyTargetTagChanges(TagContainer);
