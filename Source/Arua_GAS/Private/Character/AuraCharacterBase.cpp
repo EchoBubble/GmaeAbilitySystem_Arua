@@ -42,24 +42,26 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
-void AAuraCharacterBase::Die()
+void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	//分离组件，这个函数内部操作的变量等默认同步，所以不用写在下面的函数里
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-	MulticastHandleDeath();//这个函数内的操作不会同步，所以声明了NetMulticast, reliable确保客户端能收到消息
+	MulticastHandleDeath(DeathImpulse);//这个函数内的操作不会同步，所以声明了NetMulticast, reliable确保客户端能收到消息
 }
 
-void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 	Weapon->SetSimulatePhysics(true);//设置物理效果，不然分离组件后只是在原地
 	Weapon->SetEnableGravity(true);//确保重力开启
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);//设置碰撞为仅物理
-
+	Weapon->AddImpulse(DeathImpulse * 0.1f, NAME_None,true);
+	
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	GetMesh()->AddImpulse(DeathImpulse, NAME_None,true);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();

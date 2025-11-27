@@ -62,6 +62,7 @@ public:
 	bool IsCriticalHit() const {return bIsCriticalHit;}
 	bool IsBlockedHit() const {return bIsBlockedHit;}
 	bool IsSuccessfulDebuff() const {return bIsSuccessfulDebuff;}
+	bool IsShouldHitReact() const {return bShouldHitReact;}
 	float GetDebuffDamage() const {return DebuffDamage;}
 	float GetDebuffFrequency() const {return DebuffFrequency;}
 	float GetDebuffDuration() const {return DebuffDuration;}
@@ -71,6 +72,7 @@ public:
 	void SetIsCriticalHit(bool bInCriticalHit) {bIsCriticalHit = bInCriticalHit;}
 	void SetIsBlockedHit(bool bInBlockedHit) {bIsBlockedHit = bInBlockedHit;}
 	void SetIsSuccessfulDebuff(bool bInIsDebuff) {bIsSuccessfulDebuff = bInIsDebuff;}
+	void SetIsShouldHitReact(bool bInShouldHitReact) {bShouldHitReact = bInShouldHitReact;}
 	void SetDebuffDamage(float InDamage) {DebuffDamage = InDamage;}
 	void SetDebuffFrequency(float InFrequency) {DebuffFrequency = InFrequency;}
 	void SetDebuffDuration(float InDuration) {DebuffDuration = InDuration;}
@@ -120,9 +122,13 @@ protected:
 	float DebuffDuration = 0.f;
 
 	UPROPERTY()
+	bool bShouldHitReact = true;
+	
+	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
 	
 	TSharedPtr<FGameplayTag> DamageType;
+	
 };
 
 template<>

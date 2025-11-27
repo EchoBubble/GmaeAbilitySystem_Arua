@@ -185,28 +185,29 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		const bool bFatal = NewHealth <= 0.f;
 		if (bFatal)
 		{
-			// TODO: Use Death Impulse!
-			
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 			if (CombatInterface)
 			{
-				CombatInterface->Die();
+				CombatInterface->Die(UAuraAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle));
 			}
 			SendXPEvent(Props);
 		}
 		else
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(Effects_HitReact);
-			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);//因为敌人是受击方，所以这里是调用的Target
+			if (UAuraAbilitySystemLibrary::IsShouldHitReact(Props.EffectContextHandle))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);//因为敌人是受击方，所以这里是调用的Target
+			}
+			if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.EffectContextHandle))
+			{
+				Debuff(Props);
+			}
 		}
 		const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bCritical = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 		ShowFloatingText(Props, LocalIncomingDamage,bBlock, bCritical);
-		if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.EffectContextHandle))
-		{
-			Debuff(Props);
-		}
 	}
 }
 
@@ -250,6 +251,8 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(MutableSpec->GetContext().Get());
 		TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
 		AuraContext->SetDamageType(DebuffDamageType);
+
+		AuraContext->SetIsShouldHitReact(false);
 		
 		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 	}
