@@ -4,6 +4,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AIController.h"
 #include "AuraAbilityTypes.h"
 #include "GameplayAbilityBlueprint.h"
 #include "GameplayEffectExtension.h"
@@ -12,6 +13,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Arua_GAS/AuraLogChannels.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
@@ -199,6 +201,19 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);//因为敌人是受击方，所以这里是调用的Target
+			}
+			
+			const FVector& KnockbackForce = UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
+			
+			if (!KnockbackForce.IsNearlyZero(1.f))
+			{
+				//Props.TargetCharacter->GetCharacterMovement()->StopMovementImmediately();
+				if (AAIController* AI = Cast<AAIController>(Props.TargetCharacter->GetController()))
+				{
+					AI->StopMovement();
+				}
+				Props.TargetCharacter->LaunchCharacter(KnockbackForce,true,true);
+				
 			}
 			if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.EffectContextHandle))
 			{
