@@ -23,6 +23,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	
+	UFUNCTION(NetMulticast,reliable)
 	void DebuffChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	UFUNCTION()
