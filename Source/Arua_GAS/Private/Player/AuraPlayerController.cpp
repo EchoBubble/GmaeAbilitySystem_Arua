@@ -8,6 +8,7 @@
 #include "MovieSceneTracksComponentTypes.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
@@ -116,6 +117,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				{
 					CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];//将点击位置设置为导航点最后一个点的位置，否则可能会出现永久跑，具体看文档
 					bAutoRunning = true;
+					UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 				}
 			}
 		}
