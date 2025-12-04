@@ -507,6 +507,14 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_4, "Montage.Attack.4", "Attack 4");
 
 	/*
+	 * PlayerController
+	 */
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_CursorTrace, "Player.Block.CursorTrace","Block tracing under the cursor")
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputPressed, "Player.Block.InputPressed","Block Input Pressed callback for input")
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputReleased, "Player.Block.InputReleased","Block Input Released callback for input")
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputHeld, "Player.Block.InputHeld","Block Input Held callback for input")
+	
+	/*
 	 * Maps
 	 */
 	const TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance =

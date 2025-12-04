@@ -65,6 +65,14 @@ void AAuraPlayerController::AutoRun()
 
 void AAuraPlayerController::CursorTrace()
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_CursorTrace))
+	{
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->UnHighlightActor();
+		LastActor = nullptr;
+		ThisActor = nullptr;
+		return;
+	}
 	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);
 	if(!CursorHit.bBlockingHit) return;
 
@@ -81,6 +89,11 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
+	{
+		return; // 当作根本没按过这个键
+	}
+
 	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
 	if (InputTag.MatchesTagExact(InputTag_LMB))
 	{
@@ -92,6 +105,10 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_InputReleased))
+	{
+		return; // 当作根本没按过这个键
+	}
 	if (!InputTag.MatchesTagExact(InputTag_LMB))
 	{
 		if (GetASC())
@@ -118,7 +135,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				{
 					CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];//将点击位置设置为导航点最后一个点的位置，否则可能会出现永久跑，具体看文档
 					bAutoRunning = true;
-					UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+					if (GetASC() && !GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
+					{
+						UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+					}
 				}
 			}
 		}
@@ -129,6 +149,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_InputHeld))
+	{
+		return; // 当作根本没按过这个键
+	}
 	if (!InputTag.MatchesTagExact(InputTag_LMB))//不是左键就就运行其他键位的技能
 	{
 		if (GetASC())
@@ -197,6 +221,10 @@ void AAuraPlayerController::SetupInputComponent()
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
+	{
+		return; // 当作根本没按过这个键
+	}
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();//提取移动方向和大小，键盘或摇杆的XY轴
 	const FRotator Rotation = GetControlRotation();//获取玩家当前视角
 	const FRotator YawRotation(0.f,Rotation.Yaw,0.f);//只保留Yaw

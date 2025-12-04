@@ -231,5 +231,13 @@ namespace AuraGameplayTags
 	 * Effects
 	 */
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effects_HitReact);
+
+	/*
+	 *  Player Tags
+	 */
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_CursorTrace);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputPressed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputReleased);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputHeld);
 }
 
