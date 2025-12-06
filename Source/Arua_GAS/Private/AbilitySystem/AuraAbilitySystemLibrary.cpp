@@ -346,6 +346,37 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 	}
 }
 
+void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTarget, const TArray<AActor*>& Actors,TArray<AActor*>& OutClosestTargets, const FVector& Origin)
+{
+	if (Actors.Num() <= MaxTarget)
+	{
+		OutClosestTargets = Actors;
+		return;
+	}
+
+	TArray<AActor*> ActorsToCheck = Actors;//复制一份检查的对象
+	int32 NumTargetFound = 0;
+	
+	while (NumTargetFound < MaxTarget)
+	{
+		if (ActorsToCheck.Num() <= 0) break;//防止死循环
+		double ClosesDistance = TNumericLimits<double>::Max();
+		AActor* ClosestActor = nullptr;
+		for (AActor* PotentialTarget : ActorsToCheck)//遍历检查对象,每次遍历都会找到当前数组中距离最小的那位
+		{
+			const double Distance = (PotentialTarget->GetActorLocation() - Origin).Length();//获取每一个对象到原点的距离
+			if (Distance < ClosesDistance)//第一次一般都会小于设定的最大值
+			{
+				ClosesDistance = Distance;
+				ClosestActor = PotentialTarget;
+			}
+		}
+		ActorsToCheck.Remove(ClosestActor);
+		OutClosestTargets.AddUnique(ClosestActor);
+		++NumTargetFound;
+	}
+}
+
 bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
 	const bool bBothArePlayer =  FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
