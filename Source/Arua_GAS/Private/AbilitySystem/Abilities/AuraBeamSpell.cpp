@@ -60,6 +60,13 @@ void UAuraBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 			}
 		}
 	}
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
+	{
+		if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::PrimaryTargetDied))
+		{
+			CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraBeamSpell::PrimaryTargetDied);
+		}	
+	}
 }
 
 void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets)
@@ -75,8 +82,7 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 		850.f,
 		MouseHitActor->GetActorLocation());
 
-	//int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel() - 1, MaxNumShockTargets);
-	int32 NumAdditionalTargets = 5;
+	int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel() - 1, MaxNumShockTargets);
 
 	for (int32 ActorIdx = OverlappingActors.Num() - 1; ActorIdx >= 0; --ActorIdx)
 	{
@@ -91,4 +97,36 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 		OverlappingActors,
 		OutAdditionalTargets,
 		MouseHitActor->GetActorLocation());
+
+	// 遍历额外的角色，如果其中有角色死亡，就调用蓝图覆写的这个函数(移除 GC)
+	for (AActor* Target : OutAdditionalTargets)
+	{
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Target))
+        {
+        	if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::AdditionalTargetDied))
+        	{
+        		CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraBeamSpell::AdditionalTargetDied);
+        	}	
+        }
+	}
+}
+
+void UAuraBeamSpell::RemoveOnDeathBindingFromPrimaryTarget()
+{
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor);
+	if (CombatInterface)
+	{
+		CombatInterface->GetOnDeathDelegate().RemoveDynamic(
+			this, &ThisClass::PrimaryTargetDied);
+	}
+}
+
+void UAuraBeamSpell::RemoveOnDeathBindingFromAdditionalTarget()
+{
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor);
+	if (CombatInterface)
+	{
+		CombatInterface->GetOnDeathDelegate().RemoveDynamic(
+			this, &ThisClass::AdditionalTargetDied);
+	}
 }

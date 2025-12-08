@@ -63,10 +63,16 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	GetMesh()->AddImpulse(DeathImpulse, NAME_None,true);
 	
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	Dissolve();
 	bDead = true;
 	OnDeath.Broadcast(this);
+	
+	if (APlayerController* PC = GetController<APlayerController>())
+	{
+		PC->DisableInput(PC);
+	}
 }
 
 // Called when the game starts or when spawned
