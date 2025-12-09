@@ -29,6 +29,12 @@ public:
 
 	UPROPERTY()
 	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
+	
+	UFUNCTION()
+	void OnHomingTargetDeath(AActor* DeadActor);// 回调函数，用于优化火球的，可看文档 “ 炸掉那些火球 ” 章节
+
+	void InitHomingToTarget(AActor* InTarget);
+	void InitHomingToLocation(const FVector& InLocation);
 
 protected:
 	

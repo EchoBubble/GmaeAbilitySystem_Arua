@@ -11,6 +11,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -35,6 +36,51 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
+
+void AAuraProjectile::OnHomingTargetDeath(AActor* DeadActor)
+{
+	// 敌人死了：直接取消追踪，不再跟着尸体和 ragdoll 乱飞
+	ProjectileMovement->bIsHomingProjectile      = false;
+	ProjectileMovement->HomingTargetComponent    = nullptr;
+	ProjectileMovement->bRotationFollowsVelocity = true;
+	ProjectileMovement->ProjectileGravityScale   = 1.f; // 给点重力，让它自然砸地爆炸
+}
+
+void AAuraProjectile::InitHomingToTarget(AActor* InTarget)
+{
+	if (!InTarget) return;
+	
+	ProjectileMovement->bIsHomingProjectile      = true;
+	ProjectileMovement->bRotationFollowsVelocity = true;
+	ProjectileMovement->ProjectileGravityScale   = 0.f; // 追踪时一般不需要重力
+
+	if (USceneComponent* RootComp = InTarget->GetRootComponent())
+	{
+		ProjectileMovement->HomingTargetComponent = RootComp;
+	}
+
+	// 只在服务器绑死亡委托
+	if (HasAuthority())
+	{
+		if (ICombatInterface* CombatTarget = Cast<ICombatInterface>(InTarget))
+		{
+			CombatTarget->GetOnDeathDelegate().AddUniqueDynamic(this, &AAuraProjectile::OnHomingTargetDeath);
+		}
+	}
+}
+
+void AAuraProjectile::InitHomingToLocation(const FVector& InLocation)
+{
+	ProjectileMovement->bIsHomingProjectile      = true;
+	ProjectileMovement->bRotationFollowsVelocity = true;
+
+	// 创建一个 SceneComponent 当作“假目标”
+	HomingTargetSceneComponent = NewObject<USceneComponent>(this);
+	HomingTargetSceneComponent->RegisterComponent();
+	HomingTargetSceneComponent->SetWorldLocation(InLocation);
+
+	ProjectileMovement->HomingTargetComponent = HomingTargetSceneComponent;
+}
 
 void AAuraProjectile::BeginPlay()
 {

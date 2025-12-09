@@ -151,14 +151,26 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 			Projectile->ProjectileMovement->bIsHomingProjectile = bLaunchHomingProjectiles;
 			if (HomingTarget && HomingTarget->Implements<UCombatInterface>())
 			{
-				Projectile->ProjectileMovement->HomingTargetComponent = HomingTarget->GetRootComponent();
+				const bool bTargetAlive = !ICombatInterface::Execute_IsDead(HomingTarget);
+				if (bTargetAlive)
+				{
+					//Projectile->ProjectileMovement->HomingTargetComponent = HomingTarget->GetRootComponent();
+					// 目标还活着 → 让投射物去“追人”
+					Projectile->InitHomingToTarget(HomingTarget);
+				}
+				else
+				{
+					// 目标已经死了 → 不要追尸体，改为追鼠标点（地面）
+					Projectile->InitHomingToLocation(ProjectileTargetLocation);
+				}
 			}
 			else
 			{
 				//创建强引用，可以被正常 GC
-				Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+				/*Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
 				Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
-				Projectile->ProjectileMovement->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+				Projectile->ProjectileMovement->HomingTargetComponent = Projectile->HomingTargetSceneComponent;*/
+				Projectile->InitHomingToLocation(ProjectileTargetLocation);
 			}
 			Projectile->ProjectileMovement->HomingAccelerationMagnitude = FMath::FRandRange(HomingAccelerationMin,HomingAccelerationMax);
 		}
