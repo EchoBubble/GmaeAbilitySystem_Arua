@@ -259,6 +259,10 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		TagContainer.CombinedTags.AddTag(Player_Block_InputHeld);
 		TagContainer.CombinedTags.AddTag(Player_Block_InputPressed);
 		TagContainer.CombinedTags.AddTag(Player_Block_InputReleased);
+
+		const FGameplayTagContainer AbilitiesToCancelTags(Abilities);//每次被
+		const FGameplayTagContainer AbilitiesToIgnoreTags(Abilities_Passive);
+		Props.TargetASC->CancelAbilities(&AbilitiesToCancelTags, &AbilitiesToIgnoreTags);
 	}
 	
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();

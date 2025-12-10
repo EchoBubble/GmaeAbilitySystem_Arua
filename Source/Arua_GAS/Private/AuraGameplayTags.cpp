@@ -466,6 +466,9 @@ namespace AuraGameplayTags
 	/*
 	 * Abilities
 	 */
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities, "Abilities", "Ability - father");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_Passive, "Abilities.Passive", "passive ability for block debuff");
+	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_None, "Abilities.None", "No Ability - like the nullptr for Ability Tags");
 
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_Attack, "Abilities.Attack", "Abilities Attack Tag");

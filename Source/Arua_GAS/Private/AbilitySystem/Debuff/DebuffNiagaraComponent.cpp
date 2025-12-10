@@ -22,6 +22,7 @@ void UDebuffNiagaraComponent::BeginPlay()
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner());
 	if (ASC)
 	{
+		if (!GetOwner() || !GetOwner()->HasAuthority()) return;
 		ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UDebuffNiagaraComponent::DebuffChanged);
 	}
 	else if (CombatInterface)
@@ -30,6 +31,7 @@ void UDebuffNiagaraComponent::BeginPlay()
 		CombatInterface->GetOnASCRegisteredDelegate().AddWeakLambda(this,
 			[this](UAbilitySystemComponent* InASC)
 			{
+				if (!GetOwner() || !GetOwner()->HasAuthority()) return;
 				InASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UDebuffNiagaraComponent::DebuffChanged);
 			});
 	}
