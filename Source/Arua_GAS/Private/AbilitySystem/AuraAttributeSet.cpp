@@ -246,7 +246,21 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	FInheritedTagContainer TagContainer;
 	TagContainer.Added.AddTag(DamageTypesToDebuffs[DamageType]);//本次添加的标签
 	TagContainer.CombinedTags.AddTag(DamageTypesToDebuffs[DamageType]);//最后所有的标签，整体流程是 UE 官方推荐这么做的
+	
+	const FGameplayTag DebuffTag = DamageTypesToDebuffs[DamageType];
+	if (DebuffTag.MatchesTagExact(Debuff_Stun))
+	{
+		TagContainer.Added.AddTag(Player_Block_CursorTrace);
+		TagContainer.Added.AddTag(Player_Block_InputHeld);
+		TagContainer.Added.AddTag(Player_Block_InputPressed);
+		TagContainer.Added.AddTag(Player_Block_InputReleased);
 
+		TagContainer.CombinedTags.AddTag(Player_Block_CursorTrace);
+		TagContainer.CombinedTags.AddTag(Player_Block_InputHeld);
+		TagContainer.CombinedTags.AddTag(Player_Block_InputPressed);
+		TagContainer.CombinedTags.AddTag(Player_Block_InputReleased);
+	}
+	
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	Component.SetAndApplyTargetTagChanges(TagContainer);
 

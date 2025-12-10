@@ -9,7 +9,9 @@
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Arua_GAS/Arua_GAS.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 using namespace AuraGameplayTags;
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
@@ -30,6 +32,13 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetupAttachment(GetMesh(),FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	//Weapon->SetRelativeScale3D(FVector(1,1,1));
+}
+
+void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -73,6 +82,17 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	{
 		PC->DisableInput(PC);
 	}
+}
+
+void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsStunned = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f : BaseWalkSpeed;
+}
+
+void AAuraCharacterBase::OnRep_Stunned()
+{
+	
 }
 
 // Called when the game starts or when spawned
