@@ -259,10 +259,6 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		TagContainer.CombinedTags.AddTag(Player_Block_InputHeld);
 		TagContainer.CombinedTags.AddTag(Player_Block_InputPressed);
 		TagContainer.CombinedTags.AddTag(Player_Block_InputReleased);
-
-		const FGameplayTagContainer AbilitiesToCancelTags(Abilities);//每次被
-		const FGameplayTagContainer AbilitiesToIgnoreTags(Abilities_Passive);
-		Props.TargetASC->CancelAbilities(&AbilitiesToCancelTags, &AbilitiesToIgnoreTags);
 	}
 	
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
@@ -288,6 +284,22 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		AuraContext->SetIsShouldHitReact(false);
 		
 		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
+
+		if (IsValid(Props.TargetAvatarActor) && DebuffTag.MatchesTagExact(Debuff_Stun))
+		{
+			/*FGameplayEventData EventData;
+			EventData.EventTag = Debuff_Stun;
+			EventData.Instigator = Props.SourceAvatarActor;
+			EventData.Target = Props.TargetAvatarActor;
+
+			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+				Props.TargetAvatarActor,
+				Debuff_Stun,
+				EventData);*/
+			const FGameplayTagContainer AbilitiesToCancelTags(Abilities);// 被 眩晕时将会取消所有带有 Abilities 开头的节能
+			const FGameplayTagContainer AbilitiesToIgnoreTags(Abilities_Passive);// 忽略 Passive 的技能
+			Props.TargetASC->CancelAbilities(&AbilitiesToCancelTags, &AbilitiesToIgnoreTags);
+		}
 	}
 }
 
