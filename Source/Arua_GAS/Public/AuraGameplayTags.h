@@ -200,6 +200,13 @@ namespace AuraGameplayTags
 
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Lightning_Electrocute);
+	
+	/*
+	 *  Passive Spells
+	 */
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_HaloOfProtection);// 保护光环
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_LifeSiphon);// 生命虹吸
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_ManaSiphon);// 法力虹吸
 
 	/*
 	 * Cooldown
