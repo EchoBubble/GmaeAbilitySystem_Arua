@@ -87,6 +87,15 @@ AActor* AAuraEnemy::GetCombatTarget_Implementation()
 	return CombatTarget;
 }
 
+void AAuraEnemy::SetIsBeingShocked_Implementation(bool bInShock)
+{
+	Super::SetIsBeingShocked_Implementation(bInShock);
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("BeingShocked"),bIsBeingShocked);
+	}
+}
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();

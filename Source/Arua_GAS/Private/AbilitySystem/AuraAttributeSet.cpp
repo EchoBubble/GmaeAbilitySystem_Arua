@@ -196,7 +196,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		}
 		else
 		{
-			if (UAuraAbilitySystemLibrary::IsShouldHitReact(Props.EffectContextHandle))
+			if (UAuraAbilitySystemLibrary::IsShouldHitReact(Props.EffectContextHandle) && !ICombatInterface::Execute_IsBeingShocked(Props.TargetCharacter))
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(Effects_HitReact);

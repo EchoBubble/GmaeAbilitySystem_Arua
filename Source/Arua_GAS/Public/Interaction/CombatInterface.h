@@ -91,9 +91,15 @@ public:
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() = 0;
 	virtual FOnDeath& GetOnDeathDelegate() = 0;
 
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)// 设置是否进入点击循环动画
 	void SetInShockLoop(bool bInLoop);
 
 	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
 	USkeletalMeshComponent* GetWeapon();
+
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
+	bool IsBeingShocked();
+
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)// 被电击方进入电击状态
+	void SetIsBeingShocked(bool bInShock);
 };

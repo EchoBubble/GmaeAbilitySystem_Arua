@@ -36,6 +36,7 @@ public:
 	virtual void Die(const FVector& DeathImpulse) override;
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() override;
+	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 	/** end Combat Interface*/
 
 	//这两个委托来自于OverlayWidgetController
