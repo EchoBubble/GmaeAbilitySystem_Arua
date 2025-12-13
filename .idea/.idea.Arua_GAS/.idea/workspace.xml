@@ -16,8 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/SubWidget/WBP_HealthManaSpells.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/SubWidget/WBP_HealthManaSpells.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_PassiveSpellTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_PassiveSpellTree.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -592,7 +590,7 @@
       <workItem from="1764388945938" duration="110066000" />
       <workItem from="1765100838459" duration="9791000" />
       <workItem from="1765156809919" duration="71663000" />
-      <workItem from="1765417980009" duration="50101000" />
+      <workItem from="1765417980009" duration="51243000" />
     </task>
     <servers />
   </component>
