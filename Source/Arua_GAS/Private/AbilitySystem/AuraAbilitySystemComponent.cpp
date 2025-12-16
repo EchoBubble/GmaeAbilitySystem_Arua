@@ -53,7 +53,7 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSub
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
-
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	for (FGameplayAbilitySpec& AbilitySpec:GetActivatableAbilities())//这里遍历的是所有可激活的能力列表
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))//判断这个容器里面是否有InputTag
@@ -73,7 +73,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Inp
 void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
-
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	for (FGameplayAbilitySpec& AbilitySpec:GetActivatableAbilities())//这里遍历的是所有可激活的能力列表
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))//判断这个容器里面是否有InputTag
@@ -91,7 +91,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
 void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
-
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	for (FGameplayAbilitySpec& AbilitySpec:GetActivatableAbilities())
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag) && AbilitySpec.IsActive())
@@ -165,13 +165,59 @@ FGameplayTag UAuraAbilitySystemComponent::GetStatusFromAbilityTag(const FGamepla
 	return FGameplayTag();
 }
 
-FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag)
+FGameplayTag UAuraAbilitySystemComponent::GetSlotTagFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	if (const FGameplayAbilitySpec* Spec = GetSpecFromAbilityTag(AbilityTag))
 	{
 		return GetInputTagFromSpec(*Spec);
 	}
 	return FGameplayTag();
+}
+
+bool UAuraAbilitySystemComponent::SlotIsEmpty(const FGameplayTag& Slot)
+{
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilityHasSlot(&AbilitySpec, Slot))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecWithSlot(const FGameplayTag& Slot)
+{
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(Slot))
+		{
+			return &AbilitySpec;
+		}
+	}
+	return nullptr;
+}
+
+bool UAuraAbilitySystemComponent::IsPassiveAbility(const FGameplayAbilitySpec& Spec) const
+{
+	const UAbilityInfo* AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+	const FGameplayTag AbilityTag = GetAbilityTagFromSpec(Spec);
+	const FAuraAbilityInfo& Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	const FGameplayTag AbilityType = Info.AbilityType;
+	return AbilityType.MatchesTagExact(Abilities_Type_Passive);
+}
+
+bool UAuraAbilitySystemComponent::AbilityHasAnySlot(const FGameplayAbilitySpec& Spec)
+{
+	return Spec.DynamicAbilityTags.HasTag(FGameplayTag::RequestGameplayTag(FName("InputTag")));
+}
+
+void UAuraAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec& Spec, const FGameplayTag& Slot)
+{
+	ClearSlot(&Spec);// 清除旧地插槽标签
+	Spec.DynamicAbilityTags.AddTag(Slot);
 }
 
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
@@ -271,9 +317,50 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 		const bool bStatusValid = Status == Abilities_Status_Equipped || Status == Abilities_Status_Unlocked;
 		if (bStatusValid)
 		{
-			// Remove this InputTag (slot) from any Ability that has it.
+			// Handle activation/deactivation for passive abilities
+
+			if (!SlotIsEmpty(Slot)) // 该插槽中有技能，需要取消激活以及清除插槽标签
+			{
+				FGameplayAbilitySpec* SpecWithSlot = GetSpecWithSlot(Slot);// 找到“现在住在这个插槽里的技能”
+				if (SpecWithSlot)
+				{
+					// 如果选择的技能上的标签等于插槽上技能身上的标签，说明他们相等，可直接广播并返回
+					if (AbilityTag.MatchesTagExact(GetAbilityTagFromSpec(*SpecWithSlot)))
+					{
+						ClientEquipAbility(AbilityTag, Abilities_Status_Equipped, Slot, PrevSlot);
+						return;
+					}
+
+					if (IsPassiveAbility(*SpecWithSlot))
+					{
+						DeactivatePassiveAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithSlot));
+						SpecWithSlot->DynamicAbilityTags.RemoveTag(Abilities_Status_Equipped);
+						SpecWithSlot->DynamicAbilityTags.AddTag(Abilities_Status_Unlocked);
+					}
+					
+					ClearSlot(SpecWithSlot);
+				}
+			}
+
+			if (!AbilityHasAnySlot(*AbilitySpec))// 如果技能没有任何 插槽 标签(未激活)
+			{
+				if (IsPassiveAbility(*AbilitySpec))// 如果是被动技能，直接激活
+				{
+					TryActivateAbility(AbilitySpec->Handle);
+				}
+			}
+			AssignSlotToAbility(*AbilitySpec, Slot);
+			MarkAbilitySpecDirty(*AbilitySpec);
+			if (Status.MatchesTagExact(Abilities_Status_Unlocked))
+			{
+				AbilitySpec->DynamicAbilityTags.RemoveTag(Abilities_Status_Unlocked);
+				AbilitySpec->DynamicAbilityTags.AddTag(Abilities_Status_Equipped);
+			}
+			ClientEquipAbility(AbilityTag, Status, Slot, PrevSlot);
+			
+			/*// Remove this InputTag (slot) from any Ability that has it. 这里等于是移除目前所有拥有的技能的指定 InputTag，例如 LMB
 			ClearAbilitiesOfSlot(Slot);
-			// Clear this ability's slot, just in case, int's a different slot
+			// Clear this ability's slot, just in case, int's a different slot 这里是移除当前选择技能原先包含的 InputTag
 			ClearSlot(AbilitySpec);
 			// Now, assign this slot to this ability
 			AbilitySpec->DynamicAbilityTags.AddTag(Slot);
@@ -283,7 +370,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				AbilitySpec->DynamicAbilityTags.AddTag(Abilities_Status_Equipped);
 			}
 			MarkAbilitySpecDirty(*AbilitySpec);
-			ClientEquipAbility(AbilityTag, Status, Slot, PrevSlot);
+			ClientEquipAbility(AbilityTag, Status, Slot, PrevSlot);*/
 		}
 	}
 }
@@ -323,7 +410,6 @@ void UAuraAbilitySystemComponent::ClearSlot(FGameplayAbilitySpec* Spec)
 {
 	const FGameplayTag Slot = GetInputTagFromSpec(*Spec);
 	Spec->DynamicAbilityTags.RemoveTag(Slot);
-	MarkAbilitySpecDirty(*Spec);
 }
 
 void UAuraAbilitySystemComponent::ClearAbilitiesOfSlot(const FGameplayTag& Slot)
