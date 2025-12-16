@@ -9,6 +9,7 @@
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Arua_GAS/Arua_GAS.h"
 #include "Components/CapsuleComponent.h"
+#include "Engine/ContentEncryptionConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -17,7 +18,7 @@ using namespace AuraGameplayTags;
 AAuraCharacterBase::AAuraCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	BurnDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("BurnDebuffComponent");
 	BurnDebuffComponent->SetupAttachment(GetRootComponent());
@@ -26,6 +27,17 @@ AAuraCharacterBase::AAuraCharacterBase()
 	StunDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("StunDebuffComponent");
 	StunDebuffComponent->SetupAttachment(GetRootComponent());
 	StunDebuffComponent->DebuffTag = Debuff_Stun;
+
+	EffectAttachComponent = CreateDefaultSubobject<USceneComponent>("EffectAttachPoint");
+	EffectAttachComponent->SetupAttachment(GetRootComponent());
+	EffectAttachComponent->SetUsingAbsoluteRotation(true);
+	EffectAttachComponent->SetWorldRotation(FRotator::ZeroRotator);
+	HaloOfProtectionNiagaraSystem = CreateDefaultSubobject<UPassiveNiagaraComponent>("HaloOfProtectionComp");
+	HaloOfProtectionNiagaraSystem->SetupAttachment(EffectAttachComponent);
+	LifeSiphonNiagaraSystem = CreateDefaultSubobject<UPassiveNiagaraComponent>("LifeSiphonOfProtectionComp");
+	LifeSiphonNiagaraSystem->SetupAttachment(EffectAttachComponent);
+	ManaSiphonNiagaraSystem = CreateDefaultSubobject<UPassiveNiagaraComponent>("ManaSiphonOfProtectionComp");
+	ManaSiphonNiagaraSystem->SetupAttachment(EffectAttachComponent);
 	
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera,ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
@@ -106,6 +118,11 @@ void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AAuraCharacterBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)

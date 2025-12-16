@@ -220,6 +220,11 @@ void UAuraAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec& Spec
 	Spec.DynamicAbilityTags.AddTag(Slot);
 }
 
+void UAuraAbilitySystemComponent::MulticastActivatePassiveEffect_Implementation(const FGameplayTag& AbilityTag, bool bActivate)
+{
+	ActivatePassiveEffect.Broadcast(AbilityTag, bActivate);
+}
+
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	FScopedAbilityListLock ActiveScopeLock(*this);
@@ -333,6 +338,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 
 					if (IsPassiveAbility(*SpecWithSlot))
 					{
+						MulticastActivatePassiveEffect(GetAbilityTagFromSpec(*SpecWithSlot), false);
 						DeactivatePassiveAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithSlot));
 						SpecWithSlot->DynamicAbilityTags.RemoveTag(Abilities_Status_Equipped);
 						SpecWithSlot->DynamicAbilityTags.AddTag(Abilities_Status_Unlocked);
@@ -347,8 +353,8 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				if (IsPassiveAbility(*AbilitySpec))// 如果是被动技能，直接激活
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivatePassiveEffect(AbilityTag, true);}
 				}
-			}
 			AssignSlotToAbility(*AbilitySpec, Slot);
 			MarkAbilitySpecDirty(*AbilitySpec);
 			if (Status.MatchesTagExact(Abilities_Status_Unlocked))

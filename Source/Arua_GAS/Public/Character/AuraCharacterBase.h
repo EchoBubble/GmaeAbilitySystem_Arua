@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystem/Passive/PassiveNiagaraComponent.h"
 #include "AuraCharacterBase.generated.h"
 
 class UDebuffNiagaraComponent;
@@ -25,7 +26,7 @@ class ARUA_GAS_API AAuraCharacterBase : public ACharacter,public IAbilitySystemI
 public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet()const {return Attributes;};
 
@@ -69,6 +70,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
@@ -150,5 +153,17 @@ private:
 	
 	UPROPERTY(EditAnywhere,Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UPassiveNiagaraComponent> HaloOfProtectionNiagaraSystem;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UPassiveNiagaraComponent> LifeSiphonNiagaraSystem;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UPassiveNiagaraComponent> ManaSiphonNiagaraSystem;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> EffectAttachComponent;
 };
 
