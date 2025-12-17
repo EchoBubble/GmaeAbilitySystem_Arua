@@ -487,6 +487,7 @@ namespace AuraGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_Fire_FireBolt, "Abilities.Fire.FireBolt", "FireBolt Abilities Tag");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute", "Electrocute Abilities Tag");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Abilities_Arcane_ArcaneShards, "Abilities.Arcane.ArcaneShards", "Arcane Shards Abilities Tag");
 
 	/*
 	 *  Passive Spells
