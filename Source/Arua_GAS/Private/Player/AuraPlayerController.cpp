@@ -5,16 +5,15 @@
 
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
-#include "MovieSceneTracksComponentTypes.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Actor/MagicCircle.h"
+#include "Components/DecalComponent.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
-#include "Runtime/AIModule/Classes/AIController.h"
 #include "UI/Widget/DamageTextComponent.h"
 
 using namespace AuraGameplayTags;
@@ -35,12 +34,16 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	UpdateMagicCircleLocation();
 }
 
-void AAuraPlayerController::ShowMagicCircle()
+void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 {
 	if (!IsValid(MagicCircle))
 	{
 		FVector MagicCircleLoc = CursorHit.ImpactPoint;
 		MagicCircle = GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass, MagicCircleLoc, FRotator::ZeroRotator);
+		if (DecalMaterial)
+		{
+			MagicCircle->MagicCircleDecal->SetDecalMaterial(DecalMaterial);
+		}
 	}
 }
 
