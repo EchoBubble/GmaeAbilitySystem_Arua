@@ -42,6 +42,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
+
+	UFUNCTION(BlueprintCallable)
+	void SetShowMouseCursorAndForceRefresh(bool bNewValue);
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -107,7 +110,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
 
-	void UpdateMagicCircleLocation();
+	void UpdateMagicCircleLocation() const;
 };
 
 inline UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
