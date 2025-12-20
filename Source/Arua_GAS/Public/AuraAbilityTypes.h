@@ -90,7 +90,7 @@ public:
 	TSharedPtr<FGameplayTag> GetDamageType() const {return DamageType;}
 	const FVector& GetDeathImpulse() const { return DeathImpulse;}
 	const FVector& GetKnockbackForce() const { return KnockbackForce;}
-	bool IsRadialDamage() const {return bIsRadial;}
+	bool GetIsRadialDamage() const {return bIsRadial;}
 	float GetRadialDamageInnerRadius() const {return RadialDamageInnerRadius;}
 	float GetRadialDamageOuterRadius() const {return RadialDamageOuterRadius;}
 	FVector GetRadialDamageOrigin() const {return RadialDamageOrigin;}
