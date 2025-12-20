@@ -35,7 +35,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	Params.DebuffFrequency = DebuffFrequency;
 	Params.DebuffDuration = DebuffDuration;
 	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
-	Params.KnockbackForceMagnitude = KnockbackForceMagnitude;
+	Params.KnockbackForceMagnitude = KnockbackForceMagnitude; 
 	Params.KnockbackForceChance = KnockbackChance;
 	if (IsValid(TargetActor))
 	{
@@ -44,6 +44,13 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 		const FVector ToTarget = Rotation.Vector();
 		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
 		Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
+	}
+	if (bIsRadialDamage)
+	{
+		Params.bIsRadialDamage = bIsRadialDamage;
+		Params.RadialDamageOrigin = RadialDamageOrigin;
+		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
+		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;
 	}
 	return Params;
 }
