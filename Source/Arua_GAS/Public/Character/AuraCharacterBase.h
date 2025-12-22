@@ -27,6 +27,8 @@ public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet()const {return Attributes;};
 
@@ -47,10 +49,12 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingShocked_Implementation() override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
+	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	/* End Combat Interface*/
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;
+	FOnDamageSignature OnDamageDelegate;
 	
 	UFUNCTION(NetMulticast, reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);

@@ -10,6 +10,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 using namespace AuraGameplayTags;
 
@@ -150,6 +151,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	//获取当前GE的实例
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	//通过GE实例获取源和目标的角色以及GE上的所有标签Tag
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
@@ -163,6 +165,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Debuff
 	DetermineDebuff(ExecutionParams, Spec, EvaluateParameters);
 
+	float RadialDamageScale = 1.f;
+	if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+	{
+		const FVector Origin = UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle);
+		const float Inner = UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle);
+		const float Outer = UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle);
+
+		const FVector TargetLoc = TargetActor->GetActorLocation();
+		const float Distance = (TargetLoc - Origin).Size();
+		
+		RadialDamageScale = UAuraAbilitySystemLibrary::GetRadialDamageScale(Distance, Inner, Outer, 1.f);
+	}
+	
 	//Get Damage Set by Caller Magnitude/通过Set by Caller Magnitude获取伤害值，这里需要确保tag和之前设置的一致
 	float DamageValue = 0.f;
 	for (const TPair<FGameplayTag, FGameplayTag>& Pair : DamageTypesToResistance)
@@ -181,7 +196,30 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluateParameters, Resistance);
 		Resistance = FMath::Clamp(Resistance, 0.f , 100.f);
 		DamageTypeValue *= ( 100.f - Resistance ) / 100.f;
+
+		/*if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetActor))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda([&](float DamageAmount)
+				{
+					DamageTypeValue = DamageAmount;
+				});
+			}
+		}
+		UGameplayStatics::ApplyRadialDamageWithFalloff(
+			TargetActor,
+			DamageTypeValue,
+			0.f,
+			UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+			UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+			UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+			1,
+			UDamageType::StaticClass(),
+			TArray<AActor*>(),
+			SourceActor, nullptr);*/
 		
+		DamageTypeValue *= RadialDamageScale;
 		DamageValue += DamageTypeValue;
 	}
 	
@@ -191,8 +229,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.f);
 	
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
-
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 	
 	//If Block, halve the damage.阻挡成功，减半伤害

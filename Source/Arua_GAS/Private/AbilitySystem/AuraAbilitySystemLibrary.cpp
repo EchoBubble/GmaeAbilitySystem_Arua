@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
+#include "Engine/DamageEvents.h"
 #include "Game/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -532,6 +533,17 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotatedVectors(const FVector& F
 		Vectors.Add(Forward);
 	}
 	return Vectors;
+}
+
+float UAuraAbilitySystemLibrary::GetRadialDamageScale(float Distance, float InnerRadius, float OuterRadius,float DamageFalloff)
+{
+	FRadialDamageParams Params;
+	Params.InnerRadius   = InnerRadius;
+	Params.OuterRadius   = OuterRadius;
+	Params.DamageFalloff = DamageFalloff;
+
+	// 注意：FRadialDamageParams::GetDamageScale 只需要距离
+	return Params.GetDamageScale(Distance);
 }
 
 
