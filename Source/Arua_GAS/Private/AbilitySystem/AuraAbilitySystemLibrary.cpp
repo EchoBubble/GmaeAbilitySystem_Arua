@@ -262,7 +262,7 @@ float UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(const FGameplayEffec
 {
 	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
-		return AuraEffectContext->GetRadialDamageInnerRadius();
+		return AuraEffectContext->GetRadialDamageOuterRadius();
 	}
 	return 0.f;
 }

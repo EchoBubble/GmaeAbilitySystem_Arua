@@ -49,7 +49,7 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingShocked_Implementation() override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
-	virtual FOnDamageSignature& GetOnDamageSignature() override;
+	virtual FOnDamageSignature& GetOnDamageSignature() override;//径向伤害中已废除，没啥意义，容易出错，具体看文档
 	/* End Combat Interface*/
 
 	FOnASCRegistered OnASCRegistered;

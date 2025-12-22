@@ -166,7 +166,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	DetermineDebuff(ExecutionParams, Spec, EvaluateParameters);
 
 	float RadialDamageScale = 1.f;
-	if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+	if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle) && TargetActor)
 	{
 		const FVector Origin = UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle);
 		const float Inner = UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle);
@@ -174,7 +174,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		const FVector TargetLoc = TargetActor->GetActorLocation();
 		const float Distance = (TargetLoc - Origin).Size();
-		
 		RadialDamageScale = UAuraAbilitySystemLibrary::GetRadialDamageScale(Distance, Inner, Outer, 1.f);
 	}
 	
@@ -191,6 +190,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		const FGameplayEffectAttributeCaptureDefinition CaptureDef = (DamageStatics().TagsToCaptureDefs[ResistanceTag]);
 
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTagTag,false);//根据遍历，只有设置了的才有数据，否则为 0
+		if (DamageTypeValue <= 0.f)
+		{
+			continue;
+		}
 		
 		float Resistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluateParameters, Resistance);
