@@ -3,9 +3,12 @@
 
 #include "AbilitySystem/Abilities/AuraBeamSpell.h"
 
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
+
+using namespace AuraGameplayTags;
 
 void UAuraBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 {
@@ -130,4 +133,37 @@ void UAuraBeamSpell::RemoveOnDeathBindingFromAdditionalTarget()
 		CombatInterface->GetOnDeathDelegate().RemoveDynamic(
 			this, &ThisClass::AdditionalTargetDied);
 	}
+}
+
+FString UAuraBeamSpell::GetDescription(int32 Level, UAbilityInfo* AbilityInfo)
+{
+	const int32 ScaledDamage = FMath::RoundToInt(Damage.GetValueAtLevel(Level));
+	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float Cooldown = GetCooldown(Level);
+
+	if (!AbilityInfo)
+	{
+		return FString("AbilityInfo is null");
+	}
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Lightning_Electrocute);
+
+	if (Level == 1)
+	{
+		return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,0,ScaledDamage,false);
+	}
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level - 1,  MaxNumShockTargets),ScaledDamage,true);
+}
+
+FString UAuraBeamSpell::GetNextLevelDescription(int32 Level, UAbilityInfo* AbilityInfo)
+{
+	const int32 ScaledDamage = FMath::RoundToInt(Damage.GetValueAtLevel(Level));
+	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float Cooldown = GetCooldown(Level);
+
+	if (!AbilityInfo)
+	{
+		return FString("AbilityInfo is null");
+	}
+	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Lightning_Electrocute);
+	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level - 1,  MaxNumShockTargets),ScaledDamage,true);
 }

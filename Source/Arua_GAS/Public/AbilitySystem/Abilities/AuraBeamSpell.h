@@ -38,6 +38,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveOnDeathBindingFromAdditionalTarget();
+
+	virtual FString GetDescription(int32 Level,UAbilityInfo* AbilityInfo) override;
+	virtual FString GetNextLevelDescription(int32 Level,UAbilityInfo* AbilityInfo) override;
 protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Beam")

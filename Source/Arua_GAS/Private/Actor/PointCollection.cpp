@@ -53,7 +53,7 @@ TArray<USceneComponent*> APointCollection::GetGroundPoints(const FVector& Ground
 		const FVector LoweredLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, Pt->GetComponentLocation().Z - 500.f);
 		
 		FHitResult HitResult;
-		TArray<AActor*> IgnoreActors;//这里不是范围内活着的对象排除他们，而是只这些角色不被射线检测
+		TArray<AActor*> IgnoreActors;//这里命名可能会有误导性，这里不是输入，而是输出，指获取到的这些角色被排除后面的射线检测
 		UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(
 			this, IgnoreActors, TArray<AActor*>(), 1500.f, GetActorLocation());
 
