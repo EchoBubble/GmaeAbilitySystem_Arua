@@ -201,6 +201,7 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Lightning_Electrocute);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Arcane_ArcaneShards);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBlast);
 	
 	/*
 	 *  Passive Spells
