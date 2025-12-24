@@ -22,9 +22,9 @@ FString UAuraArcaneShards::GetDescription(int32 Level, UAbilityInfo* AbilityInfo
 
 	if (Level == 1)
 	{
-		return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,0,ScaledDamage,false);
+		return AbilityInfo->FormatDescription(Info,Level,FMath::RoundToInt(ManaCost),Cooldown,0,ScaledDamage,false);
 	}
-	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, MaxNumShards),ScaledDamage,true);
+	return AbilityInfo->FormatDescription(Info,Level,FMath::RoundToInt(ManaCost),Cooldown,FMath::Min(Level, MaxNumShards),ScaledDamage,true);
 	
 }
 
@@ -32,6 +32,7 @@ FString UAuraArcaneShards::GetNextLevelDescription(int32 Level, UAbilityInfo* Ab
 {
 	const int32 ScaledDamage = FMath::RoundToInt(Damage.GetValueAtLevel(Level));
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	FMath::RoundToInt(ManaCost);
 	const float Cooldown = GetCooldown(Level);
 
 	if (!AbilityInfo)
@@ -39,5 +40,5 @@ FString UAuraArcaneShards::GetNextLevelDescription(int32 Level, UAbilityInfo* Ab
 		return FString("AbilityInfo is null");
 	}
 	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Arcane_ArcaneShards);
-	return AbilityInfo->FormatDescription(Info,Level,ManaCost,Cooldown,FMath::Min(Level, MaxNumShards),ScaledDamage,true);
+	return AbilityInfo->FormatDescription(Info,Level,FMath::RoundToInt(ManaCost),Cooldown,FMath::Min(Level, MaxNumShards),ScaledDamage,true);
 }
