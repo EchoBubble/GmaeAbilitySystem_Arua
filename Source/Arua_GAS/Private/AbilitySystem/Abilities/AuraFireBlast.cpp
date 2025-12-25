@@ -41,3 +41,8 @@ FString UAuraFireBlast::GetNextLevelDescription(int32 Level, UAbilityInfo* Abili
 	const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(Abilities_Fire_FireBlast);
 	return AbilityInfo->FormatDescription(Info,Level,FMath::RoundToInt(ManaCost),Cooldown,FMath::Min(Level, NumFireBlasts),ScaledDamage,true);
 }
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
+}
