@@ -16,11 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Aura/Abilities/Fire/FireBlast/GA_FireBlast.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Aura/Abilities/Fire/FireBlast/GA_FireBlast.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/character/AuraCharacter/BP_AuraCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/character/AuraCharacter/BP_AuraCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraFireBlast.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/AbilitySystem/Abilities/AuraFireBlast.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraFireBlast.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/Abilities/AuraFireBlast.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/Actor/AuraProjectile.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/Actor/AuraProjectile.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -544,7 +540,7 @@
       <workItem from="1765156809919" duration="71663000" />
       <workItem from="1765417980009" duration="51243000" />
       <workItem from="1765590646150" duration="21138000" />
-      <workItem from="1765782890669" duration="192125000" />
+      <workItem from="1765782890669" duration="200085000" />
     </task>
     <servers />
   </component>
