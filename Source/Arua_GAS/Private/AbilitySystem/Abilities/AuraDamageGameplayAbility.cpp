@@ -62,7 +62,6 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 		{
 			Params.DeathImpulse = ToTarget *DeathImpulseMagnitude;
 		}
-		
 	}
 	
 	if (bOverrideKnockbackDirection)

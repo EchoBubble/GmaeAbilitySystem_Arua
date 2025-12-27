@@ -29,10 +29,12 @@ void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;//投射物方向和冲量大小
-			DamageEffectParams.DeathImpulse = DeathImpulse;//设置死亡冲击方向
+			//const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;//投射物方向和冲量大小
+			//DamageEffectParams.DeathImpulse = DeathImpulse;//设置死亡冲击方向
 			
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+
+			ExplosionDamageParams.TargetAbilitySystemComponent = TargetASC;
 			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 			IgnoreList.Add(OtherActor);
 		}
