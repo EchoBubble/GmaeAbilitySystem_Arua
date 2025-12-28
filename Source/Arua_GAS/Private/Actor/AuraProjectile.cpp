@@ -44,7 +44,9 @@ void AAuraProjectile::OnHomingTargetDeath(AActor* DeadActor)
 	ProjectileMovement->bIsHomingProjectile      = false;
 	ProjectileMovement->HomingTargetComponent    = nullptr;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	ProjectileMovement->ProjectileGravityScale   = 1.f; // 给点重力，让它自然砸地爆炸
+ 	ProjectileMovement->ProjectileGravityScale   = 1.f; // 给点重力，让它自然砸地爆炸
+
+	GetWorld()->GetTimerManager().ClearTimer(HomingTargetTimerHandle);
 }
 
 void AAuraProjectile::InitHomingToTarget(AActor* InTarget)
@@ -90,6 +92,42 @@ void AAuraProjectile::BeginPlay()
 	Sphere->OnComponentBeginOverlap.AddDynamic(this,&AAuraProjectile::OnSphereOverlap);
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
 	SetReplicateMovement(true);
+
+	if (HasAuthority() && ProjectileMovement->bIsHomingProjectile)
+	{
+		GetWorld()->GetTimerManager().SetTimer(
+			HomingTargetTimerHandle, 
+			this, 
+			&AAuraProjectile::CheckHomingTargetStatus, 
+			0.1f, 
+			true
+		);
+	}
+}
+
+void AAuraProjectile::CheckHomingTargetStatus()
+{
+	// 1. 如果追踪已经关闭了（比如已经触发过死亡逻辑了），就没必要再查了
+	if (!ProjectileMovement->bIsHomingProjectile)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HomingTargetTimerHandle);
+		return;
+	}
+
+	// 2. 死了就直接关闭追踪并启用重力
+	if (HomingTargetActor->Implements<UCombatInterface>())
+	{
+		if (ICombatInterface::Execute_IsDead(HomingTargetActor.Get()))
+		{
+			OnHomingTargetDeath(HomingTargetActor.Get());
+		}
+	}
+	else
+	{
+		// 如果 Component 没了（比如被 Destroy 了），也应该停止追踪
+		// 可以选择在这里直接清理 Timer，或者调用死亡逻辑
+		GetWorld()->GetTimerManager().ClearTimer(HomingTargetTimerHandle);
+	}
 }
 
 void AAuraProjectile::OnHit()
@@ -115,6 +153,7 @@ void AAuraProjectile::Destroyed()
 	{
 		OnHit();
 	}
+	GetWorld()->GetTimerManager().ClearTimer(HomingTargetTimerHandle);
 	Super::Destroyed();
 }
 

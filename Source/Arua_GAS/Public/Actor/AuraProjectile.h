@@ -36,9 +36,18 @@ public:
 	void InitHomingToTarget(AActor* InTarget);
 	void InitHomingToLocation(const FVector& InLocation);
 
+	UPROPERTY()
+	TWeakObjectPtr<AActor> HomingTargetActor;
 protected:
 	
 	virtual void BeginPlay() override;
+
+	// 定时器句柄，用于管理定时器的生命周期
+	FTimerHandle HomingTargetTimerHandle;
+
+	// 新增：专门用于定时检查目标状态的函数
+	void CheckHomingTargetStatus();
+	
 	UFUNCTION(BlueprintCallable)
 	void OnHit();
 	virtual void Destroyed() override;

@@ -149,6 +149,7 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 		if (bLaunchHomingProjectiles)
 		{
 			Projectile->ProjectileMovement->bIsHomingProjectile = bLaunchHomingProjectiles;
+			Projectile->HomingTargetActor = HomingTarget;
 			if (HomingTarget && HomingTarget->Implements<UCombatInterface>())
 			{
 				const bool bTargetAlive = !ICombatInterface::Execute_IsDead(HomingTarget);
