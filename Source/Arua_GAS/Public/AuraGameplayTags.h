@@ -251,5 +251,10 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputPressed);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputReleased);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_InputHeld);
+
+	/*
+	 * GameplayCue
+	 */
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_FireBlast);
 }
 

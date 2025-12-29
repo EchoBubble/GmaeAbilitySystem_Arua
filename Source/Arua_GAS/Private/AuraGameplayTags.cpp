@@ -525,7 +525,11 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputPressed, "Player.Block.InputPressed","Block Input Pressed callback for input")
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputReleased, "Player.Block.InputReleased","Block Input Released callback for input")
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_InputHeld, "Player.Block.InputHeld","Block Input Held callback for input")
-	
+
+	/*
+	 * GameplayCue
+	 */
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayCue_FireBlast, "GameplayCue.FireBlast","FireBlast GameplayCue Tag")
 	/*
 	 * Maps
 	 */
