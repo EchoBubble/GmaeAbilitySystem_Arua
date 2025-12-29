@@ -36,6 +36,26 @@ void UWaitCooldownChange::EndTask()
 	MarkAsGarbage();
 }
 
+void UWaitCooldownChange::CheckRemainingCooldownTime()
+{
+	if (!IsValid(ASC) || !CooldownTag.IsValid()) return;
+
+	const FGameplayEffectQuery Query = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(CooldownTag.GetSingleTagContainer());
+
+	const TArray<float> TimesRemaining = ASC->GetActiveEffectsTimeRemaining(Query);
+
+	if (TimesRemaining.Num() <= 0) return;
+
+	float LongestTime = 0.f;
+	for (const float T : TimesRemaining)
+	{
+		LongestTime = FMath::Max(LongestTime, T);
+	}
+
+	// 关键：手动补发一次 CooldownStart，让 UI 走你原本那套倒计时流程
+	CooldownStart.Broadcast(LongestTime);
+}
+
 void UWaitCooldownChange::CooldownTagChanged(const FGameplayTag InCooldownTag, int32 NewCount)
 {
 	if (NewCount == 0)

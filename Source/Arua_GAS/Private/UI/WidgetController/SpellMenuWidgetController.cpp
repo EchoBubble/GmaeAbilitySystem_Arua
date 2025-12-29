@@ -119,6 +119,7 @@ void USpellMenuWidgetController::GlobeDeselect()
 	SpellGlobeSelectDelegate.Broadcast(false,false,FString(),FString());
 }
 
+// 蓝图中会根据这个函数决定播放主动动画还是被动动画选择框
 void USpellMenuWidgetController::EquipButtonPressed()
 {
 	const FGameplayTag AbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
