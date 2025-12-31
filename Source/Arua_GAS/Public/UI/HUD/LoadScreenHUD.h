@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "UI/ViewModel/MVVM_LoadScreen.h"
+#include "UI/Widget/LoadScreenWidget.h"
 #include "LoadScreenHUD.generated.h"
 
 /**
@@ -13,5 +15,20 @@ UCLASS()
 class ARUA_GAS_API ALoadScreenHUD : public AHUD
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ULoadScreenWidget> LoadScreenWidgetClass;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<ULoadScreenWidget> LoadScreenWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UMVVM_LoadScreen> LoadScreenViewModelClass;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<UMVVM_LoadScreen> LoadScreenViewModel;
+protected:
+	virtual void BeginPlay() override;
 };
