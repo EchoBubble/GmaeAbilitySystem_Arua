@@ -13,5 +13,9 @@ UCLASS()
 class ARUA_GAS_API ULoadScreenWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void BlueprintInitializeWidget();
 };
