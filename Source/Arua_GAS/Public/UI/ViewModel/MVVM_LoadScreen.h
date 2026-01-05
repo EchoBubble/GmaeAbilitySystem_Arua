@@ -33,7 +33,7 @@ public:
 	void NewGameButtonPressed(int32 Slot);
 	
 	UFUNCTION(BlueprintCallable)
-	void NewSlotButtonPressed(int32 Slot, const FString& EnteredName);
+	void NewSlotButtonPressed(int32 Slot);
 private:
 	
 	UPROPERTY()
