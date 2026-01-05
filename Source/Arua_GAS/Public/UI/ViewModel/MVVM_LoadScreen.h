@@ -37,7 +37,7 @@ public:
 private:
 	
 	UPROPERTY()
-	TMap<int32, UMVVM_LoadSlot*> LoadSlot;
+	TMap<int32, UMVVM_LoadSlot*> LoadSlots;
 
 	UPROPERTY()
 	TObjectPtr<UMVVM_LoadSlot> LoadSlot_0;
