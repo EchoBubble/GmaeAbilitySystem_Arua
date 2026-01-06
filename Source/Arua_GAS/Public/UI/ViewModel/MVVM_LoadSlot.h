@@ -21,10 +21,7 @@ public:
 	FSetWidgetSwitcherIndex SetWidgetSwitcherIndex;
 
 	void InitializeSlot();
-
-	UPROPERTY()
-	FString LoadSlotName;
-
+	
 	UPROPERTY()
 	FString SlotIndex;
 
@@ -34,6 +31,13 @@ public:
 	FText PlayerName;
 
 	void SetPlayerName(const FText& InPlayerName);
-
+	void SetLoadSlotName(const FText& InLoadSlotName);
+	
 	FText GetPlayerName() const {return PlayerName;};
+	FText GetLoadSlotName() const {return LoadSlotName;}
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"));
+	FText LoadSlotName;
+
 };
