@@ -33,11 +33,13 @@ public:
 	void NewGameButtonPressed(int32 Slot);
 	
 	UFUNCTION(BlueprintCallable)
-	void NewSlotButtonPressed(int32 Slot);
+	void NewSlotButtonPressed(int32 Slot, const FText& EnteredName);
 
 	int32 GetNumLoadSlots() const {return NumLoadSlots;};
 
 	void SetNumLoadSlots(int32 InNumLoadSlots);
+
+	void LoadData();
 private:
 	
 	UPROPERTY()
