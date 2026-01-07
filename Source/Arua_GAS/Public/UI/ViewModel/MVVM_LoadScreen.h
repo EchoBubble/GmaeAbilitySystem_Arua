@@ -7,6 +7,8 @@
 #include "MVVM_LoadSlot.h"
 #include "MVVM_LoadScreen.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSlotSelected);
+
 /**
  * 
  */
@@ -19,6 +21,9 @@ class ARUA_GAS_API UMVVM_LoadScreen : public UMVVMViewModelBase
 public:
 
 	void InitializeLoadSlots();
+
+	UPROPERTY(BlueprintAssignable)
+	FSlotSelected SlotSelected;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMVVM_LoadSlot> LoadSlotViewModelClass;

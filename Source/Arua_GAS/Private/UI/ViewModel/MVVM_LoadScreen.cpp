@@ -28,6 +28,18 @@ UMVVM_LoadSlot* UMVVM_LoadScreen::GetLoadSlotViewModelByIndex(int32 Index) const
 
 void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 Slot)
 {
+	SlotSelected.Broadcast();
+	for (const auto& LoadSlot : LoadSlots)
+	{
+		if (LoadSlot.Key == Slot)
+		{
+			LoadSlot.Value->EnableSelectSlotButton.Broadcast(false);
+		}
+		else
+		{
+			LoadSlot.Value->EnableSelectSlotButton.Broadcast(true);
+		}
+	}
 }
 
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
