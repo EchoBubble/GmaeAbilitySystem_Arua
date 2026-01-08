@@ -10,12 +10,15 @@ void UMVVM_LoadScreen::InitializeLoadSlots()
 {
 	LoadSlot_0 = NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
 	LoadSlot_0->SetLoadSlotName(FText::FromString("LoadSlot_0"));
+	LoadSlot_0->SlotIndex = 0;
 	LoadSlots.Add(0, LoadSlot_0);
 	LoadSlot_1 = NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
 	LoadSlot_1->SetLoadSlotName(FText::FromString("LoadSlot_1"));
+	LoadSlot_1->SlotIndex = 1;
 	LoadSlots.Add(1, LoadSlot_1);
 	LoadSlot_2 = NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
 	LoadSlot_2->SetLoadSlotName(FText::FromString("LoadSlot_2"));
+	LoadSlot_2->SlotIndex = 2;
 	LoadSlots.Add(2, LoadSlot_2);
 
 	SetNumLoadSlots(LoadSlots.Num());
@@ -34,11 +37,23 @@ void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 Slot)
 		if (LoadSlot.Key == Slot)
 		{
 			LoadSlot.Value->EnableSelectSlotButton.Broadcast(false);
+			SelectedLoadSlot = LoadSlots[Slot];
 		}
 		else
 		{
 			LoadSlot.Value->EnableSelectSlotButton.Broadcast(true);
 		}
+	}
+}
+
+void UMVVM_LoadScreen::DeleteButtonPressed()
+{
+	if (IsValid(SelectedLoadSlot))
+	{
+		AAuraGameModeBase::DeleteSlot(SelectedLoadSlot->GetLoadSlotName().ToString(), SelectedLoadSlot->SlotIndex);
+		SelectedLoadSlot->SlotStatus = Vacant;
+		SelectedLoadSlot->InitializeSlot(Vacant);
+		SelectedLoadSlot->EnableSelectSlotButton.Broadcast(true);
 	}
 }
 
@@ -73,7 +88,7 @@ void UMVVM_LoadScreen::LoadData()
 		TEnumAsByte<ESaveSlotStatus> SaveSlotStatus = SaveObject->SaveSlotStatus;
 
 		LoadSlot.Value->SlotStatus = SaveSlotStatus;
-		LoadSlot.Value->SetPlayerName(FText::FromString(PlayerName));
+		if (!PlayerName.IsEmpty()) LoadSlot.Value->SetPlayerName(FText::FromString(PlayerName));
 		
 		LoadSlot.Value->InitializeSlot(LoadSlot.Value->SlotStatus);
 	}

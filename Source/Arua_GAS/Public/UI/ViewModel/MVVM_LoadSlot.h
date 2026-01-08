@@ -28,7 +28,7 @@ public:
 	void InitializeSlot(ESaveSlotStatus InStatus);
 	
 	UPROPERTY()
-	FString SlotIndex;
+	int32 SlotIndex;
 
 	/* Filed Notifies */
 	
