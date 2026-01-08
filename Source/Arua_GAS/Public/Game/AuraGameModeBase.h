@@ -43,6 +43,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
+	void TravelToMap(const UMVVM_LoadSlot* Slot);
+
 protected:
 
 	virtual void BeginPlay() override;

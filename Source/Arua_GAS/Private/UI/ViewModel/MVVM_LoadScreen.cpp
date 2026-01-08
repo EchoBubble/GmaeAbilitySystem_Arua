@@ -57,6 +57,12 @@ void UMVVM_LoadScreen::DeleteButtonPressed()
 	}
 }
 
+void UMVVM_LoadScreen::PlayButtonPressed()
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (IsValid(SelectedLoadSlot)) AuraGameMode->TravelToMap(SelectedLoadSlot);
+}
+
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
 {
 	LoadSlots[Slot]->SetWidgetSwitcherIndex.Broadcast(1);
