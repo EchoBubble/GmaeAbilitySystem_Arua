@@ -65,7 +65,8 @@ void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
 void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FText& EnteredName)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
-	
+
+	LoadSlots[Slot]->SetMapName(FText::FromString(AuraGameMode->DefaultMapName));
 	LoadSlots[Slot]->SetPlayerName(EnteredName);
 	
 	AuraGameMode->SaveSlotData(LoadSlots[Slot], Slot);

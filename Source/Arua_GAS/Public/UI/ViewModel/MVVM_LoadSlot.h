@@ -31,21 +31,25 @@ public:
 	int32 SlotIndex;
 
 	/* Filed Notifies */
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter);
-	FText PlayerName;
 
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus;
 
 	void SetPlayerName(const FText& InPlayerName);
 	void SetLoadSlotName(const FText& InLoadSlotName);
+	void SetMapName(const FText& InMapName);
 	
 	FText GetPlayerName() const {return PlayerName;};
 	FText GetLoadSlotName() const {return LoadSlotName;}
+	FText GetMapName() const {return MapName;}
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"));
+	FText PlayerName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"));
 	FText LoadSlotName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"));
+	FText MapName;
 };
