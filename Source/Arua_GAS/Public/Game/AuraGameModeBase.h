@@ -41,6 +41,9 @@ public:
 	TSoftObjectPtr<UWorld> DefaultMap;
 
 	UPROPERTY(EditDefaultsOnly)
+	FName DefaultPlayerStartTag;
+
+	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
 	void TravelToMap(const UMVVM_LoadSlot* Slot);

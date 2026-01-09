@@ -16,8 +16,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab8d4a4-9434-4e0d-be0d-a15daa4994c7" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arua_GAS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Effects/ArcaneShards/NS_ArcaneShards.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Effects/ArcaneShards/NS_ArcaneShards.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Game/BP_AuraGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Game/BP_AuraGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/Game/AuraGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/Game/AuraGameModeBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Private/UI/ViewModel/MVVM_LoadScreen.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Private/UI/ViewModel/MVVM_LoadScreen.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Arua_GAS/Public/Game/AuraGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Arua_GAS/Public/Game/AuraGameModeBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,6 +148,7 @@
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AbilitySystem/ModMagCalc/MMC_MaxMana.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Actor/AuraProjectile.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/AuraGameplayTags.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Game/AuraGameInstance.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Game/LoadScreenSaveGame.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Arua_GAS/Public/Input/AuraInputConfig.h" root0="FORCE_HIGHLIGHTING" />
@@ -596,7 +600,7 @@
       <workItem from="1766814657588" duration="25972000" />
       <workItem from="1766921945953" duration="312000" />
       <workItem from="1766971183797" duration="57303000" />
-      <workItem from="1767490108610" duration="107536000" />
+      <workItem from="1767490108610" duration="113559000" />
     </task>
     <servers />
   </component>
