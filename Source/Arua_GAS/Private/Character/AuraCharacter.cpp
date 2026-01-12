@@ -55,6 +55,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	//Init Ability Actor info for the sever
 	InitAbilityActorInfo();
+
+	LoadProgress();
+	
+	//TODO: Load in Abilities from disk
 	AddCharacterAbilities();
 }
 
@@ -198,7 +202,8 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& PlayerStartTag)
 		SaveData->Intelligence = UAuraAttributeSet::GetIntelligenceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Resilience = UAuraAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
-		
+
+		SaveData->bFirstTimeLoadIn = false;
 		AuraGameMode->SaveInGameProgressData(SaveData);
 	}
 }
@@ -231,6 +236,32 @@ void AAuraCharacter::OnRep_Stunned()
 	}
 }
 
+void AAuraCharacter::LoadProgress()
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (AuraGameMode)
+	{
+		ULoadScreenSaveGame* SaveData = AuraGameMode->RetrieveInGameSaveData();//这里不管有没有都会创建一个出来
+		if (SaveData == nullptr) return;
+		
+		if (SaveData->bFirstTimeLoadIn)
+		{
+			InitializeDefaultAttributes();
+			AddCharacterAbilities();
+		}
+		else
+		{
+			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+			{
+				AuraPlayerState->SetLevel(SaveData->PlayerLevel);
+				AuraPlayerState->SetXP(SaveData->XP);
+				AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
+				AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
+			}
+		}
+	}
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	
@@ -251,9 +282,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		{
 			AuraHUD->InitOverlay(AuraPlayerController,AuraPlayerState,AbilitySystemComponent,Attributes);
 		}
-		
 	}
-	InitializeDefaultAttributes();
 }
 
 

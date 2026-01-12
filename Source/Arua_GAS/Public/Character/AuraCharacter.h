@@ -48,6 +48,8 @@ public:
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
 
 	virtual void OnRep_Stunned() override;
+
+	void LoadProgress();
 private:
 
 	UPROPERTY(VisibleAnywhere)

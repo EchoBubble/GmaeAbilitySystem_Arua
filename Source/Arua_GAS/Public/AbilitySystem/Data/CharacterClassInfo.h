@@ -21,7 +21,7 @@ USTRUCT(BlueprintType)
 struct FCharacterClassDefaultInfo
 {
 	GENERATED_BODY()
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
 
@@ -41,6 +41,9 @@ class ARUA_GAS_API UCharacterClassInfo : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
+	TSubclassOf<UGameplayEffect> PrimaryAttributes_SetByCaller;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
