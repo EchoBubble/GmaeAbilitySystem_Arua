@@ -23,3 +23,8 @@ void UMVVM_LoadSlot::SetMapName(const FText& InMapName)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(MapName, InMapName);
 }
+
+void UMVVM_LoadSlot::SetPlayerLevel(const FText& InPlayerLevel)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(PlayerLevel, InPlayerLevel);
+}
