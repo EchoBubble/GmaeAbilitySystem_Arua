@@ -39,7 +39,7 @@ void AAuraPlayerState::AddXP(int32 InXP)
 void AAuraPlayerState::AddLevel(int32 InLevel)
 {
 	Level += InLevel;
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 	
 	if (auto* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
 	{
@@ -67,7 +67,7 @@ void AAuraPlayerState::AddSpellPoints(int32 InPoints)
 void AAuraPlayerState::SetLevel(int32 InLevel)  
 {
 	Level = InLevel;
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, false);
 
 	if (auto* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
 	{
@@ -100,7 +100,7 @@ void AAuraPlayerState::SetXP(int32 InXP)
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 }
 
 void AAuraPlayerState::OnRep_XP(int32 OldXP)
