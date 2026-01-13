@@ -202,6 +202,29 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& PlayerStartTag)
 		SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
 
 		SaveData->bFirstTimeLoadIn = false;
+
+		if (!HasAuthority()) return;
+
+		FForEachAbility SaveAbilityDelegate;//先绑定
+		UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
+		SaveAbilityDelegate.BindLambda([this, AuraASC, SaveData](const FGameplayAbilitySpec& AbilitySpec)
+		{
+			const FGameplayTag AbilityTag = AuraASC->GetAbilityTagFromSpec(AbilitySpec);//通过技能找到标签
+			const UAbilityInfo* AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(this);//根据标签获取技能Data
+			const FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);//根据标签找到具体的信息结构体
+			
+			FSaveAbility SavedAbility;
+			SavedAbility.GameplayAbility = Info.Ability;
+			SavedAbility.AbilityLevel = AbilitySpec.Level;
+			SavedAbility.AbilitySlot = AuraASC->GetSlotTagFromAbilityTag(AbilityTag);
+			SavedAbility.AbilityStatus = AuraASC->GetStatusFromAbilityTag(AbilityTag);
+			SavedAbility.AbilityTage = AbilityTag;
+			SavedAbility.AbilityType = Info.AbilityType;
+
+			SaveData->SavedAbilities.Add(SavedAbility);//将结构体塞入 SaveData
+		});
+		AuraASC->ForEachAbility(SaveAbilityDelegate);//再广播
+		
 		AuraGameMode->SaveInGameProgressData(SaveData);
 	}
 }
