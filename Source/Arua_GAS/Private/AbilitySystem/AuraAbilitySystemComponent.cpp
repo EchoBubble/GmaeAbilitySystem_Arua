@@ -23,6 +23,33 @@ void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 	
 }
 
+void UAuraAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData)//磁盘加载的时候读取技能
+{
+	for (const FSaveAbility& Data : SaveData->SavedAbilities)
+	{
+		const TSubclassOf<UGameplayAbility> LoadedAbilityClass = Data.GameplayAbility;//储存的技能类
+
+		FGameplayAbilitySpec LoadedAbilitySpec = FGameplayAbilitySpec(LoadedAbilityClass, Data.AbilityLevel);
+
+		LoadedAbilitySpec.DynamicAbilityTags.AddTag(Data.AbilitySlot);
+		LoadedAbilitySpec.DynamicAbilityTags.AddTag(Data.AbilityStatus);
+		if (Data.AbilityType == Abilities_Type_Offensive)
+		{
+			GiveAbility(LoadedAbilitySpec);
+		}
+		else if (Data.AbilityType.MatchesTagExact(Abilities_Type_Passive))
+		{
+			GiveAbility(LoadedAbilitySpec);
+			if (Data.AbilityStatus.MatchesTagExact(Abilities_Status_Equipped))//被动技能只有是装备，才能赋予并直接激活,否则只是赋予
+			{
+				TryActivateAbility(LoadedAbilitySpec.Handle);
+			}
+		}
+	}
+	bStartupAbilitiesGiven = true;
+	AbilitiesGivenDelegate.Broadcast();
+}
+
 void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
 {
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
@@ -46,6 +73,7 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSub
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupPassiveAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,1);
+		AbilitySpec.DynamicAbilityTags.AddTag(Abilities_Status_Equipped);
 		GiveAbilityAndActivateOnce(AbilitySpec);
 	}
 }

@@ -9,7 +9,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 
-void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
+void AAuraGameModeBase::SaveSlotData
+(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
 	if (UGameplayStatics::DoesSaveGameExist(LoadSlot->GetLoadSlotName().ToString(), SlotIndex))
 	{
@@ -57,7 +58,7 @@ ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData() const
 	return GetSaveSlotData(LoadSlotName, LoadSlotIndex);
 }
 
-void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
+void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject) const
 {
 	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance());
 	const FString LoadSlotName = AuraGameInstance->LoadSlotName;

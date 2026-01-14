@@ -26,7 +26,7 @@ struct FSaveAbility
 	TSubclassOf<UGameplayAbility> GameplayAbility;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FGameplayTag AbilityTage = FGameplayTag();
+	FGameplayTag AbilityTag = FGameplayTag();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilityStatus = FGameplayTag();
@@ -40,7 +40,6 @@ struct FSaveAbility
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 AbilityLevel = 1;
 };
-
 
 /**
  * 

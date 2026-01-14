@@ -31,7 +31,7 @@ public:
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex) const;
 	static void DeleteSlot(const FString& SlotName, int32 SlotIndex);
 	ULoadScreenSaveGame* RetrieveInGameSaveData() const;
-	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject);
+	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject) const;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;

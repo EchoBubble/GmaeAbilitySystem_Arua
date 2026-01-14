@@ -207,6 +207,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& PlayerStartTag)
 
 		FForEachAbility SaveAbilityDelegate;//先绑定
 		UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
+		SaveData->SavedAbilities.Empty();
 		SaveAbilityDelegate.BindLambda([this, AuraASC, SaveData](const FGameplayAbilitySpec& AbilitySpec)
 		{
 			const FGameplayTag AbilityTag = AuraASC->GetAbilityTagFromSpec(AbilitySpec);//通过技能找到标签
@@ -218,9 +219,8 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& PlayerStartTag)
 			SavedAbility.AbilityLevel = AbilitySpec.Level;
 			SavedAbility.AbilitySlot = AuraASC->GetSlotTagFromAbilityTag(AbilityTag);
 			SavedAbility.AbilityStatus = AuraASC->GetStatusFromAbilityTag(AbilityTag);
-			SavedAbility.AbilityTage = AbilityTag;
+			SavedAbility.AbilityTag = AbilityTag;
 			SavedAbility.AbilityType = Info.AbilityType;
-
 			SaveData->SavedAbilities.Add(SavedAbility);//将结构体塞入 SaveData
 		});
 		AuraASC->ForEachAbility(SaveAbilityDelegate);//再广播
@@ -272,8 +272,13 @@ void AAuraCharacter::LoadProgress()
 		}
 		else
 		{
-			//TODO: Load in Abilities from disk
-			
+			/* 读取技能 */
+			if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+			{
+				AuraASC->AddCharacterAbilitiesFromSaveData(SaveData);
+			}
+
+			/* 读取等级、经验、属性点、技能点 */
 			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
 			{
 				AuraPlayerState->SetLevel(SaveData->PlayerLevel);
