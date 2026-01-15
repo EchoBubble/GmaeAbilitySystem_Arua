@@ -52,6 +52,7 @@ struct FSavedActor
 	UPROPERTY()
 	FTransform Transform = FTransform();
 
+	//序列化，这里是打算把 Actor 上所有的状态进行储存 
 	UPROPERTY()
 	TArray<uint8> Bytes;
 };
@@ -70,7 +71,7 @@ struct FSavedMap
 	FString MapAssetName = FString();
 
 	UPROPERTY()
-	TArray<FSavedActor> SavedActors;//这张图途中所有要保存的 Actor 数据
+	TArray<FSavedActor> SavedActors;//这张 Map 中所有要保存的 Actor 数据
 };
 
 /**
