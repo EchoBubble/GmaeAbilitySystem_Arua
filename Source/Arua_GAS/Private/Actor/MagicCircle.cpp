@@ -6,6 +6,7 @@
 #include "Components/DecalComponent.h"
 #include "Components/SphereComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 
 AMagicCircle::AMagicCircle()
 {
@@ -34,18 +35,18 @@ void AMagicCircle::BeginPlay()
 void AMagicCircle::OnTargetingBeingOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IEnemyInterface* EnemyInterface = Cast<IEnemyInterface>(OtherActor))
+	if (IHighlightInterface* HighlightInterface = Cast<IHighlightInterface>(OtherActor))
 	{
-		EnemyInterface->HighlightActor();
+		HighlightInterface->HighlightActor();
 	}
 }
 
 void AMagicCircle::OnTargetingEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (IEnemyInterface* EnemyInterface = Cast<IEnemyInterface>(OtherActor))
+	if (IHighlightInterface* HighlightInterface = Cast<IHighlightInterface>(OtherActor))
 	{
-		EnemyInterface->UnHighlightActor();
+		HighlightInterface->UnHighlightActor();
 	}
 }
 
