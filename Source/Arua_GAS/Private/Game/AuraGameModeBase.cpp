@@ -4,6 +4,7 @@
 #include "Game/AuraGameModeBase.h"
 
 #include "EngineUtils.h"
+#include "Arua_GAS/AuraLogChannels.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/PlayerStart.h"
@@ -100,12 +101,12 @@ void AAuraGameModeBase::SaveWorldState(const UWorld* World) const
 			SavedActor.ActorName = Actor->GetFName();
 			SavedActor.Transform = Actor->GetTransform();
 
-			FMemoryWriter MemoryWriter(SavedActor.Bytes);//SavedActor.Bytes等于是白纸，FMemoryWriter等于是笔，两者进行绑定
+			FMemoryWriter MemoryWriter(SavedActor.Bytes);//SavedActor.Bytes等于是白纸，FMemoryWriter等于写入器，两者进行绑定
 
 			FObjectAndNameAsStringProxyArchive Archive(MemoryWriter, true);//写入规则
-			Archive.ArIsSaveGame = true;//代表指处理标记了 UPROPERTY(SaveGame) 的成员，不然可能会写很多不想存的东西
+			Archive.ArIsSaveGame = true;//代表只处理标记了 UPROPERTY(SaveGame) 的成员，不然可能会写很多不想存的东西
 
-			Actor->Serialize(Archive);//按照 UE 规则打包写入 Archive
+			Actor->Serialize(Archive);//按照 UE 规则将 Actor 的变量打包写入 Archive
 
 			SavedMap.SavedActors.AddUnique(SavedActor);
 		}
@@ -119,6 +120,51 @@ void AAuraGameModeBase::SaveWorldState(const UWorld* World) const
 			}
 		}
 		UGameplayStatics::SaveGameToSlot(SaveGame, AuraGI->LoadSlotName, AuraGI->LoadSlotIndex);
+	}
+}
+
+void AAuraGameModeBase::LoadWorldState(const UWorld* World) const
+{
+	FString WorldName = World->GetMapName();
+	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);
+
+	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
+	check(AuraGI);
+
+	if (UGameplayStatics::DoesSaveGameExist(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
+	{
+		ULoadScreenSaveGame* SaveGame = Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex));
+		if (SaveGame == nullptr)
+		{
+			UE_LOG(LogAura, Error, TEXT("Failed to load slot"))
+			return;
+		}
+		
+		for (FActorIterator It(World); It; ++It)
+		{
+			AActor* Actor = *It;
+
+			if (!Actor->Implements<USaveInterface>()) continue;
+
+			for (FSavedActor SavedActor : SaveGame->GetSavedMapWithMapName(WorldName).SavedActors)
+			{
+				if (SavedActor.ActorName == Actor->GetFName())
+				{
+					if (ISaveInterface::Execute_ShouldLoadTransform(Actor))
+					{
+						Actor->SetActorTransform(SavedActor.Transform);
+					}
+
+					FMemoryReader MemoryReader(SavedActor.Bytes);//和保存不一样，这里是读取器
+
+					FObjectAndNameAsStringProxyArchive Archive(MemoryReader, true);
+					Archive.ArIsSaveGame = true;
+					Actor->Serialize(Archive);//二进制转换回节点变量，从 Archive 取出并塞回 Actor
+
+					ISaveInterface::Execute_LoadActor(Actor);//判断是否高亮
+				}
+			}
+		}
 	}
 }
 

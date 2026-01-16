@@ -49,6 +49,7 @@ public:
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
 	void SaveWorldState(const UWorld* World) const;
+	void LoadWorldState(const UWorld* World) const;
 	
 	void TravelToMap(const UMVVM_LoadSlot* Slot);
 
