@@ -100,7 +100,7 @@ private:
 	float FollowTime = 0.0f;
 	float ShortPressThreshold = 0.5f;
 	bool bAutoRunning = false;
-	ETargetingStatus TargetingStatus = NotTargeting;
+	ETargetingStatus TargetingStatus = ETargetingStatus::NotTargeting;
 
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.0f;
