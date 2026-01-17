@@ -119,8 +119,8 @@ void AAuraPlayerController::CursorTrace()
 {
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_CursorTrace))
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->UnHighlightActor();
+		UnhighlightActor(LastActor.Get());
+		UnhighlightActor(ThisActor.Get());
 		LastActor = nullptr;
 		ThisActor = nullptr;
 		return;
@@ -128,15 +128,39 @@ void AAuraPlayerController::CursorTrace()
 	const ECollisionChannel TraceChannel = IsValid(MagicCircle)? ECC_ExcludePlayers : ECC_Visibility;
 	GetHitResultUnderCursor(TraceChannel,false,CursorHit);
 	if(!CursorHit.bBlockingHit) return;
-
+	
 	LastActor = ThisActor;//最后一个Actor就是现在的Actor
 	//ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());//脚本接口，转换没有必要
-	ThisActor = CursorHit.GetActor();
+	if (IsValid(CursorHit.GetActor()) && CursorHit.GetActor()->Implements<UHighlightInterface>())
+	{
+		ThisActor = CursorHit.GetActor();
+	}
+	else
+	{
+		ThisActor = nullptr;
+		TargetingStatus = ETargetingStatus::NotTargeting;
+	}
 
 	if (LastActor != ThisActor)
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->HighlightActor();
+		UnhighlightActor(LastActor.Get());
+		HighlightActor(ThisActor.Get());
+	}
+}
+
+void AAuraPlayerController::HighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_HighlightActor(InActor);
+	}
+}
+
+void AAuraPlayerController::UnhighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_UnHighlightActor(InActor);
 	}
 }
 
@@ -150,8 +174,15 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
 	if (InputTag.MatchesTagExact(InputTag_LMB))
 	{
-		bTargeting = ThisActor ? true : false;
-		bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
+		if (IsValid(ThisActor.Get()))
+		{
+			TargetingStatus = ThisActor->Implements<UEnemyInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy;
+			bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
+		}
+		else
+		{
+			TargetingStatus = ETargetingStatus::NotTargeting;
+		}
 	}
 	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }
@@ -171,7 +202,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 	GetASC()->AbilityInputTagReleased(InputTag);
-	if (!bTargeting && !bAutoRunning && !bShiftKeyDown)
+	if (TargetingStatus != ETargetingStatus::TargetingEnemy && !bAutoRunning && !bShiftKeyDown)
 	{
 		APawn* ControllerPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControllerPawn)
@@ -196,7 +227,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			}
 		}
 		FollowTime = 0.f;//保证每次运行都是新的
-		bTargeting = false;
+		TargetingStatus = ETargetingStatus::NotTargeting;
 	}
 }
 
@@ -215,7 +246,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting || bShiftKeyDown)
+	if (TargetingStatus == ETargetingStatus::TargetingEnemy || bShiftKeyDown)
 	{
 		if (GetASC())
 		{
