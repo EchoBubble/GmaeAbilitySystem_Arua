@@ -210,6 +210,14 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	if (TargetingStatus != ETargetingStatus::TargetingEnemy && !bAutoRunning && !bShiftKeyDown)
 	{
 		APawn* ControllerPawn = GetPawn();
+		if (IsValid(ThisActor.Get()) && ThisActor->Implements<UHighlightInterface>())
+		{
+			IHighlightInterface::Execute_SetMoveToLocation(ThisActor.Get(), CachedDestination);//如果是 CheckPoint, 执行位置修改
+		}
+		else if (GetASC() && !GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+		}
 		if (FollowTime <= ShortPressThreshold && ControllerPawn)
 		{
 			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this,ControllerPawn->GetActorLocation(), CachedDestination))
@@ -224,10 +232,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				{
 					CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];//将点击位置设置为导航点最后一个点的位置，否则可能会出现永久跑，具体看文档
 					bAutoRunning = true;
-					if (GetASC() && !GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
-					{
-						UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
-					}
+					
 				}
 			}
 		}

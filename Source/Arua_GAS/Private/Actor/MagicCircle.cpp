@@ -35,18 +35,18 @@ void AMagicCircle::BeginPlay()
 void AMagicCircle::OnTargetingBeingOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IHighlightInterface* HighlightInterface = Cast<IHighlightInterface>(OtherActor))
+	if (OtherActor->Implements<UEnemyInterface>())
 	{
-		HighlightInterface->HighlightActor();
+		IHighlightInterface::Execute_HighlightActor(OtherActor);
 	}
 }
 
 void AMagicCircle::OnTargetingEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (IHighlightInterface* HighlightInterface = Cast<IHighlightInterface>(OtherActor))
+	if (OtherActor->Implements<UEnemyInterface>())
 	{
-		HighlightInterface->UnHighlightActor();
+		IHighlightInterface::Execute_UnHighlightActor(OtherActor);
 	}
 }
 
