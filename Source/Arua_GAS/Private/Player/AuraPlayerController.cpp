@@ -87,6 +87,12 @@ void AAuraPlayerController::AutoRun()
 	if (!bAutoRunning)return;
 	if (APawn* ControlledPawn = GetPawn())
 	{
+		if (!Spline || Spline->GetNumberOfSplinePoints() < 2)
+		{
+			bAutoRunning = false;
+			return;
+		}
+		
 		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(),ESplineCoordinateSpace::World);
 		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline,ESplineCoordinateSpace::World);
 		ControlledPawn->AddMovementInput(Direction);
@@ -138,7 +144,6 @@ void AAuraPlayerController::CursorTrace()
 	else
 	{
 		ThisActor = nullptr;
-		TargetingStatus = ETargetingStatus::NotTargeting;
 	}
 
 	if (LastActor != ThisActor)
@@ -177,12 +182,12 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		if (IsValid(ThisActor.Get()))
 		{
 			TargetingStatus = ThisActor->Implements<UEnemyInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy;
-			bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
 		}
 		else
 		{
 			TargetingStatus = ETargetingStatus::NotTargeting;
 		}
+		bAutoRunning = false;//还未确定是不是short press，所以自动跑设置为假
 	}
 	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }
@@ -305,6 +310,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
+	bAutoRunning = false;
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(Player_Block_InputPressed))
 	{
 		return; // 当作根本没按过这个键
