@@ -22,9 +22,12 @@ public:
 
 	ACheckpoint(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(BlueprintReadOnly, SaveGame)
+	UPROPERTY(BlueprintReadWrite, SaveGame)
 	bool bReached = false;
 
+	UPROPERTY(EditAnywhere)
+	bool bBindOverlapCallback = true;
+	
 	/* Save Interface*/
 	virtual bool ShouldLoadTransform_Implementation() override { return false; };
 	virtual void LoadActor_Implementation() override;
@@ -51,6 +54,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
+	UFUNCTION(BlueprintCallable)
 	void HandleGlowEffects();
 
 private:
