@@ -48,12 +48,14 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
-	void SaveWorldState(const UWorld* World) const;
+	void SaveWorldState(const UWorld* World, const FString& DestinationMapAssetName = FString("")) const;
 	void LoadWorldState(const UWorld* World) const;
 	
 	void TravelToMap(const UMVVM_LoadSlot* Slot);
 
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+
+	FString GetMapNameFromMapAssetName(const FString& MapAssetName)const;
 
 protected:
 

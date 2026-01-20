@@ -47,6 +47,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> MoveToComponent;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USphereComponent> Sphere;
 	
 	UPROPERTY(EditDefaultsOnly)
 	int32 CustomDepthStencilOverride = CUSTOM_DEPTH_TAN;
@@ -58,10 +64,6 @@ protected:
 	void HandleGlowEffects();
 
 private:
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess=true))
-	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
+	
+	
 };

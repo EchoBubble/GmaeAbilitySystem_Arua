@@ -71,16 +71,34 @@ void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject) 
 	UGameplayStatics::SaveGameToSlot(SaveObject, LoadSlotName, LoadSlotIndex);
 }
 
-void AAuraGameModeBase::SaveWorldState(const UWorld* World) const
+FString AAuraGameModeBase::GetMapNameFromMapAssetName(const FString& MapAssetName) const
+{
+	for (auto& Pair: Maps)
+	{
+		if (Pair.Value.ToSoftObjectPath().GetAssetName() == MapAssetName)//如果地图的名字和传参一致，返回 key，也就是该地图名称
+		{
+			return Pair.Key;
+		}
+	}
+	return FString();
+}
+
+void AAuraGameModeBase::SaveWorldState(const UWorld* World, const FString& DestinationMapAssetName) const
 {
 	FString WorldName = World->GetMapName();
 	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);//移除前缀用的
 
 	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
 	check(AuraGI);
-
+	
 	if (ULoadScreenSaveGame* SaveGame = GetSaveSlotData(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
 	{
+		if (DestinationMapAssetName != FString(""))
+		{
+			SaveGame->MapAssetName = DestinationMapAssetName;
+			//之前 save game 的地图名字都是开局保存的默认名字，这里是指当有传参，也就是在 EntranceMap 时替换为新地图的名字，下次开局，存档也能正确显示
+			SaveGame->MapName = GetMapNameFromMapAssetName(DestinationMapAssetName);
+		}
 		if (!SaveGame->HasMap(WorldName))//如果当前保存列表没有该地图
 		{
 			FSavedMap NewSavedMap;
