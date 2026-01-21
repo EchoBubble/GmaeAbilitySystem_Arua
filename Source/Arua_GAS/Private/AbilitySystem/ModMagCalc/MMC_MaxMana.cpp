@@ -46,7 +46,18 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 FOnExternalGameplayModifierDependencyChange* UMMC_MaxMana::GetExternalModifierDependencyMulticast(
 	const FGameplayEffectSpec& Spec, UWorld* World) const
 {
-	if (const UObject* SourceObj = Spec.GetContext().GetSourceObject())
+	if (UAbilitySystemComponent* InstigatorASC = Spec.GetContext().GetInstigatorAbilitySystemComponent())
+	{
+		if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(InstigatorASC))
+		{
+			return AuraASC->GetOnModifierDependencyChanged();
+		}
+	}
+	
+	// 问题发现于 EntranceMap 章节
+	// source object 可能在退出、切换关卡时先销毁或不可用，这样就可能导致 GE 生效期间找不到指针，无法返回原本的地址，于是就触发断点
+	
+	/*if (const UObject* SourceObj = Spec.GetContext().GetSourceObject())
 	{
 		if (const AActor* SourceActor = Cast<AActor>(SourceObj))
 		{
@@ -55,7 +66,7 @@ FOnExternalGameplayModifierDependencyChange* UMMC_MaxMana::GetExternalModifierDe
 				return &Cast<UAuraAbilitySystemComponent>(ASC)->OnModifierDependencyChanged;
 			}
 		}
-	}
+	}*/
 	
 	return Super::GetExternalModifierDependencyMulticast(Spec, World);
 }

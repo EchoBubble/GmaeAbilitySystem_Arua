@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	FName DestinationPlayerStartTag;
 
+	/* 该函数只是另一个解决方案，确保切换关卡时状态是干净的，具体详见 EntranceMap 章节 */
+	static void RemoveAllGameplayEffectsFromActor(const AActor* Actor);
+	/* end */
 protected:
 	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,UPrimitiveComponent* OtherComponent,int32 OtherBodyIndex,bool bFromSweep,const FHitResult& SweepResult) override;
 };
