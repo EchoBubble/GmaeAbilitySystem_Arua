@@ -84,6 +84,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 	TMap<FGameplayTag, FName> CombatSocketMap;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead = false;
 
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
