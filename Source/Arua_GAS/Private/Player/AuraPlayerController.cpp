@@ -283,7 +283,7 @@ void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	check(AuraContext);
-
+	SetControlRotation(FRotator(0.f, 0.f, 0.f)); // 永远面向世界 +X
 	UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	//check(Subsystem);
 	if (Subsystem)
@@ -324,13 +324,13 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	const FRotator Rotation = GetControlRotation();//获取玩家当前视角
 	const FRotator YawRotation(0.f,Rotation.Yaw,0.f);//只保留Yaw
 
-	const FVector ForwardDitection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);//计算向前的方向
-	const FVector RightDitection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);//向右方向
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);//计算向前的方向
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);//向右方向
 	//获取当前角色
 	if (APawn* ControlledPawn = GetPawn<APawn>())
 	{
-		ControlledPawn->AddMovementInput(ForwardDitection,InputAxisVector.Y);//根据输入的值决定方向和速度   键盘的XY
-		ControlledPawn->AddMovementInput(RightDitection,InputAxisVector.X);
+		ControlledPawn->AddMovementInput(ForwardDirection,InputAxisVector.Y);//根据输入的值决定方向和速度   键盘的XY
+		ControlledPawn->AddMovementInput(RightDirection,InputAxisVector.X);
 	}
 	
 }

@@ -71,6 +71,7 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Stunned();
 
+	void SetCharacterClass(const ECharacterClass InClass) { CharacterClass = InClass; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
