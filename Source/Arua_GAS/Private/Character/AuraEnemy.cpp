@@ -84,6 +84,7 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);//声明周期结束销毁
 	if (AuraAIController)AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"),true);
+	SpawnLoot();//蓝图中实现
 	Super::Die(DeathImpulse);
 }
 

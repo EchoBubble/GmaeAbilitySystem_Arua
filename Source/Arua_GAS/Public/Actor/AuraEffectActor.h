@@ -78,8 +78,9 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
 	TMap<FActiveGameplayEffectHandle,UAbilitySystemComponent*> ActiveEffectHandles;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Applied Effects", meta = (ExposeOnSpawn = "true"))
 	float ActorLevel = 1.0f;
+	
 	/*
 	UFUNCTION()
 	virtual void OnOverlap(UPrimitiveComponent* OverlapComponent,AActor* OtherActor,UPrimitiveComponent* OtherComponent,int32 OtherBodyIndex,bool bFromSweep,const FHitResult& SweepResult);
