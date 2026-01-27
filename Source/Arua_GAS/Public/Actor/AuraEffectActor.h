@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
@@ -35,10 +34,43 @@ public:
 
 	AAuraEffectActor();
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly)
+	FVector CalculatedLocation;//下一帧应该处于的位置
+
+	UPROPERTY(BlueprintReadOnly)
+	FRotator CalculatedRotation;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bRotates = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float RotationRate = 45.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bSinusoidalMovement = false;//正弦运动
+
+	UFUNCTION(BlueprintCallable)
+	void StartSinusoidalMovement();
+
+	UFUNCTION(BlueprintCallable)
+	void StartRotation();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SineAmplitude = 8.f;//浮动幅度
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SinePeriodConstant = 4;//正弦频率 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	FVector InitialLocation;//浮动基准位置
+	
+	
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
@@ -89,10 +121,6 @@ protected:
 	*/
 	
 private:
-	/*UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> Mesh;*/
-
+	float RunningTime;//累计时间
+	void ItemMovement(float DeltaTime);
 };

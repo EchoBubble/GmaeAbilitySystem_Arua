@@ -5,24 +5,67 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 //#include "AbilitySystemInterface.h"
 
 
 
 AAuraEffectActor::AAuraEffectActor()
 {
-
 	PrimaryActorTick.bCanEverTick = false;
-	
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));//创建根组件
-
 }
 
+void AAuraEffectActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	RunningTime += DeltaTime;
+	/* 这里是算的总共时间，由于 ItemMovements 函数的上下运动用的 sin(x) 这里时间算法也要用 2 PI / 数值
+	 * 这是一种强关联，因为只有这样，周期时间才能对应上 sin 的周期，如果时间用一个随意的数值，就会导致突然归零跳跃
+	 */
+	const float SinePeriod = 2 * PI / SinePeriodConstant;
+	if (RunningTime > SinePeriod)
+	{
+		RunningTime = 0.f;
+	}
+	ItemMovement(DeltaTime);
+}
+
+void AAuraEffectActor::ItemMovement(float DeltaTime)
+{	
+	if (bRotates)
+	{
+		//计算每一帧旋转多少角度,ComposeRotators将 B 值叠加到 A 值上
+		const FRotator DeltaRotation(0.f, DeltaTime * RotationRate, 0.f);
+		CalculatedRotation = UKismetMathLibrary::ComposeRotators(CalculatedRotation, DeltaRotation);
+	}
+	if (bSinusoidalMovement)
+	{
+		//SineAmplitude = 限定上下范围，sin 确保为 -1，1 的运动区间，传参是每个时间下应该处于什么位置
+		const float Sine = SineAmplitude * FMath::Sin(RunningTime * SinePeriodConstant);
+		CalculatedLocation = InitialLocation + FVector(0.f, 0.f,Sine);
+	}
+}
 
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
+	InitialLocation = GetActorLocation();
+	CalculatedLocation = InitialLocation;//开局还未动，下一帧位置等于基准点
+	CalculatedRotation = GetActorRotation();
+}
 
+void AAuraEffectActor::StartSinusoidalMovement()
+{
+	bSinusoidalMovement = true;
+	InitialLocation = GetActorLocation();
+}
+
+void AAuraEffectActor::StartRotation()
+{
+	bRotates = true;
+	CalculatedRotation = GetActorRotation();
+	CalculatedLocation = InitialLocation;
 }
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -102,5 +145,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 		}
 	}
 }
+
+
 
 
