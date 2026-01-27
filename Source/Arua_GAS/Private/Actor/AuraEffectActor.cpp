@@ -57,6 +57,7 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::StartSinusoidalMovement()
 {
+	RunningTime = 0.f;
 	bSinusoidalMovement = true;
 	InitialLocation = GetActorLocation();
 }

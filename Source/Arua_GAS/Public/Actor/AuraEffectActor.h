@@ -40,7 +40,7 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	FVector CalculatedLocation;//下一帧应该处于的位置
 
 	UPROPERTY(BlueprintReadOnly)
